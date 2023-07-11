@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Folders containing binaries and objects
+obj/
+bin/
