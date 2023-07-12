@@ -133,7 +133,8 @@ void BaseProject:: createInstance() {
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &appInfo;
 
-	uint32_t glfwExtensionCount = 0;
+    // UNUSED VARIABLES
+	// uint32_t glfwExtensionCount = 0;
     // const char** glfwExtensions; // NEVER USED
 	// glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 				
