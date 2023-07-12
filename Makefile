@@ -16,15 +16,21 @@ LD = g++
 # C flags
 CFLAGS = 
 # C++ flags
-CXXFLAGS = 
+CXXFLAGS = -std=c++17
 # C/C++ flags
-CPPFLAGS = -Wall
+CPPFLAGS = -Wall -O2
 # dependency-generation flags
-DEPFLAGS = -MMD -MP
+DEPFLAGS = -MMD -MP -I./src/lib
 # linker flags
 LDFLAGS = 
 # library flags
 LDLIBS = 
+# packages used
+PKG = vulkan glfw3
+
+CFLAGS+=$(shell pkg-config --cflags $(PKG))
+CXXFLAGS+=$(shell pkg-config --cflags $(PKG))
+LDFLAGS+=$(shell pkg-config --libs $(PKG))
 
 # build directories
 BIN = bin
