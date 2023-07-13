@@ -84,6 +84,16 @@ void PrintVkError( VkResult result ) {
 	std::cout << "Error: " << result << ", " << meaning << "\n";
 }
 
+void BaseProject::run() {
+    windowResizable = GLFW_FALSE;
+
+   	setWindowParameters();
+    initWindow();
+    initVulkan();
+    mainLoop();
+    cleanup();
+}
+
 void BaseProject::initWindow() {
     glfwInit();
 

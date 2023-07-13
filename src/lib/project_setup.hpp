@@ -3,7 +3,8 @@
 
 // This has been adapted from the Vulkan tutorial
 
-#include "vulkan/vulkan_core.h"
+#include <vulkan/vulkan_core.h>
+#include <vulkan/vulkan.h>
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
@@ -38,8 +39,6 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-
-#include <vulkan/vulkan.h>
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -259,15 +258,7 @@ class BaseProject {
 	friend struct DescriptorSet;
 public:
 	virtual void setWindowParameters() = 0;
-    void run() {
-    	windowResizable = GLFW_FALSE;
-
-    	setWindowParameters();
-        initWindow();
-        initVulkan();
-        mainLoop();
-        cleanup();
-    }
+    void run();
 
 protected:
 	uint32_t windowWidth;
