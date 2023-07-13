@@ -34,3 +34,6 @@
 # Folders containing binaries and objects
 obj/
 bin/
+
+# Compiled shaders
+shaders/*.spv
