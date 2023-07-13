@@ -10,3 +10,12 @@ Please write here any idea you have on the project (flag them as done once they 
 ## Makefile
 
 The Mmakefile is a modified version of [tomdaley92/makefile](https://gist.github.com/tomdaley92/190c68e8a84038cc91a5459409e007df) that allows for structured projects
+
+## Ideas
+
+- [ ] Simil racing game (pass through portals/rings in the air)
+  - [ ] Optional collision with obstacles
+- [ ] Space setting
+- [ ] Model sun as point light
+- [ ] Different planet/object models
+- [ ] Skybox effects with shaders, try using lightmap
