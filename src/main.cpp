@@ -1,13 +1,13 @@
-#include <project_setup.hpp>
+#include "game/game_main.hpp"
 #include <exception>
-#include "Project.hpp"
+#include <log.h>
 
 int main() {
     // Set loglevel for the debugger
     logSetLevel(LOG_LEVEL_DEBUG);
 
-    Project app;
-    logInfo("Vulkan project created");
+    GameMain app;
+    logInfo("Starting vulkan project");
 
     try {
         app.run();
@@ -15,5 +15,6 @@ int main() {
         logError(e.what());
         return EXIT_FAILURE;
     }
+    logInfo("Execution success");
     return EXIT_SUCCESS;
 }

@@ -17,7 +17,6 @@
 #include <fstream>
 #include <array>
 #include <vulkan/vulkan.h>
-#include <log.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
