@@ -2,7 +2,7 @@
 #define GAME_MAIN_HPP
 
 #include "vulkan/vulkan_core.h"
-#include "project_setup.hpp"
+#include <project_setup.hpp>
 #include "game_types.hpp"
 #include "game_model.hpp"
 
