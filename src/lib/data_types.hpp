@@ -1,5 +1,5 @@
-#ifndef GAME_TYPES_HPP
-#define GAME_TYPES_HPP
+#ifndef VERTEX_TYPES_HPP
+#define VERTEX_TYPES_HPP
 
 #include <glm/glm.hpp>
 
@@ -24,10 +24,10 @@ struct GlobalUniformBlock {
 };
 
 // The vertices data structures
-struct SomeVertexType {
+struct VertexNormUV {
 	glm::vec3 pos;
 	glm::vec3 norm;
 	glm::vec2 UV;
 };
 
-#endif//GAME_TYPES_HPP
+#endif//VERTEX_TYPES_HPP

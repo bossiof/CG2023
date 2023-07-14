@@ -3,7 +3,7 @@
 
 #include "vulkan/vulkan_core.h"
 #include <project_setup.hpp>
-#include "game_types.hpp"
+#include <data_types.hpp>
 #include "game_model.hpp"
 
 class GameMain : public BaseProject {
@@ -25,7 +25,7 @@ protected:
         somePieline;
 
     // Use this to save model data    
-    Model<SomeVertexType>
+    Model<VertexNormUV>
         someModel;
 
     Texture
@@ -44,7 +44,7 @@ protected:
 
     void updateUniformBuffer(uint32_t currentImage);
 
-    void gameLogic(GameModel game);
+    void gameLogic(GameModel& game);
 };
 
 #endif//GAME_MAIN_HPP

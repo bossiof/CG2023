@@ -9,7 +9,6 @@ void GameMain::setWindowParameters() {
     initialBackgroundColor = {0.0f, 0.005f, 0.01f, 1.0f};
     
     // Descriptor pool sizes
-    /* A16 */
     uniformBlocksInPool = 1;
     texturesInPool = 1;
     setsInPool = 1;
@@ -24,10 +23,13 @@ void GameMain::onWindowResize(int w, int h) {
 }
 
 void GameMain::updateUniformBuffer(uint32_t currentImage) {
+    static GameModel game;
+
+   	if(glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
 
     // get input from sixaxis
-
-    static GameModel game;
     gameLogic(game);
     // game logic
 

@@ -19,3 +19,5 @@ The Mmakefile is a modified version of [tomdaley92/makefile](https://gist.github
 - [ ] Model sun as point light
 - [ ] Different planet/object models
 - [ ] Skybox effects with shaders, try using lightmap
+- [ ] Implement movement inertia
+- [ ] Implement rotation inertia
