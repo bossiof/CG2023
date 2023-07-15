@@ -22,7 +22,9 @@ bool ColliderObject::collision(ColliderObject& other) {
         < (this->radius + other.radius);
 }
 
-SpaceShip::SpaceShip(glm::vec3 position, float radius): ColliderObject(position, radius) {}
+SpaceShip::SpaceShip(glm::vec3 position, float radius): ColliderObject(position, radius) {
+    this->rotation = glm::quat(0,0,0,1);
+}
 void SpaceShip::applyEffect(GameModel& gmae) { return; }
 
 Asteroid::Asteroid(glm::vec3 position, float radius): ColliderObject(position, radius) {}

@@ -3,8 +3,8 @@
 #include "log.h"
 
 void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
-    uboPlain.mvpMat = game.ViewPrj;
-    uboPlain.mMat = game.World;
+    uboUniverse.mMat = UGWM;
+    uboUniverse.mvpMat = game.ViewPrj * uboUniverse.mMat;
 
-    DSUniverse.map(currentImage, &uboPlain, sizeof(uboPlain), 0);
+    DSUniverse.map(currentImage, &uboUniverse, sizeof(uboUniverse), 0);
 }

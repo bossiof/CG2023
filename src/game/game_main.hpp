@@ -6,6 +6,10 @@
 #include <data_types.hpp>
 #include "game_model.hpp"
 
+#include <iostream>
+
+std::ostream& operator<<(std::ostream& stream, glm::vec3& vec);
+
 class GameMain : public BaseProject {
 protected:
     // Used to sotre Aspect ratio
@@ -13,29 +17,40 @@ protected:
 
     // Use this to define a new DSL
     DescriptorSetLayout
-        DSLUniverse;
+        DSLUniverse,
+        DSLSPaceShip;
 
     // Use this to define a new VertexDescriptor
     VertexDescriptor
-        VUniverse;
+        VUniverse,
+        VSpaceShip;
 
     // Use this to define new pipelines
     // (may be managed by a custom loader)
     Pipeline
-        PPlain;
+        PPlain,
+        PMesh;
 
     // Use this to save model data    
     Model<VertexUV>
-        MUniverse;
+        MUniverse,
+        MMesh;
 
     Texture
-        TUniverse;
+        TUniverse,
+        TMesh;
     
     DescriptorSet
-        DSUniverse;
+        DSUniverse,
+        DSMesh;
     
     PlainUniformBlock
-        uboPlain;
+        uboUniverse,
+        uboMesh;
+
+    glm::mat4
+        I = glm::mat4(1),   // Since we use it a lot
+        UGWM;
 
     // Global variables for the application
 

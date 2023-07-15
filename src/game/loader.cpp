@@ -22,6 +22,12 @@ void GameMain::localInit() {
         "shaders/PlainVert.spv",
         "shaders/PlainFrag.spv",
         {&DSLUniverse});
+    // Disable backface culling for plain rendering
+    PPlain.setAdvancedFeatures(
+        VK_COMPARE_OP_LESS,
+        VK_POLYGON_MODE_FILL,
+ 		VK_CULL_MODE_NONE,
+        false);
 
     MUniverse.init(this,
         &VUniverse,
@@ -30,6 +36,9 @@ void GameMain::localInit() {
     
     TUniverse.init(this,
         "Assets/Textures/universo4.jpg");
+
+    // Global World Matrix for universe
+    UGWM = glm::scale(I, glm::vec3(50));
 }
 
 void GameMain::pipelinesAndDescriptorSetsInit() {

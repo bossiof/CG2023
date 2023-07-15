@@ -1,5 +1,10 @@
 #include "game_main.hpp"
 
+
+std::ostream& operator<<(std::ostream& stream, glm::vec3& vec) {
+    return stream << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+}
+
 void GameMain::setWindowParameters() {
     // window size, titile and initial background
     windowWidth = 800;
@@ -24,6 +29,10 @@ void GameMain::onWindowResize(int w, int h) {
 
 void GameMain::updateUniformBuffer(uint32_t currentImage) {
     static GameModel game;
+
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
 
     // get input from sixaxis
     gameLogic(game);
