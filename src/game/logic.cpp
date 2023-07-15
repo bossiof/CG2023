@@ -1,9 +1,11 @@
 #include "game_main.hpp"
 #include "glm/ext/quaternion_geometric.hpp"
+#include "glm/fwd.hpp"
 #include "project_setup.hpp"
 #include <iostream>
 
 #define SPEED_EFFECT_DAMPING 2.0f
+#define ROTATION_EFFECT_DAMPING 4.0f
 
 // Generic damp function
 template <class T>
@@ -93,6 +95,7 @@ void GameMain::gameLogic(GameModel& game) {
 		* glm::rotate(glm::quat(1,0,0,0), CamRoll, glm::vec3(0,0,1));
 
 	glm::mat4 MQ = glm::mat4(game.character->rotation);
+	static glm::mat4 MQOld(MQ);
 
 	glm::vec3 ux = glm::vec3(MQ * glm::vec4(1,0,0,1));
 	glm::vec3 uy = glm::vec3(MQ * glm::vec4(0,1,0,1));
@@ -116,7 +119,6 @@ void GameMain::gameLogic(GameModel& game) {
 	//the camera position is based on the target position with two rotations and a translation at a certain distance
 	glm::vec3 cameraPosition = targetPosition+ camHeight*uy-camDist*uz;
 
-	glm::mat4 camera_shift= glm::mat4(1);
 	//projection matrix
 	glm::mat4 Mprj = glm::perspective(FOVy, Ar, nearPlane, farPlane);
 	glm::mat4 fixed_Mprj = glm::perspective(fixed_FOVy, Ar, nearPlane, farPlane);
@@ -129,5 +131,6 @@ void GameMain::gameLogic(GameModel& game) {
 	game.ViewPrj =Mprj*Mv;
 	game.fixed_ViewPrj =fixed_Mprj*Mv;
 	//world matrix
+	DAMP(glm::mat4, MQ, ROTATION_EFFECT_DAMPING);
 	game.World =  glm::translate(glm::mat4(1.0), game.character->position) * MQ ;
 }
