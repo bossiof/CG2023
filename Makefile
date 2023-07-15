@@ -109,7 +109,7 @@ remake:	clean $(BIN)/$(EXE)
 
 # execute the program
 .PHONY: run
-run: $(BIN)/$(EXE)
+run: $(BIN)/$(EXE) $(SHADERS)
 	./$(BIN)/$(EXE)
 
 # remove previous build and objects

@@ -25,13 +25,11 @@ void GameMain::onWindowResize(int w, int h) {
 void GameMain::updateUniformBuffer(uint32_t currentImage) {
     static GameModel game;
 
-   	if(glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-		glfwSetWindowShouldClose(window, GL_TRUE);
-	}
-
     // get input from sixaxis
     gameLogic(game);
     // game logic
+
+    drawScreen(game, currentImage);
 
     // draw screen
 }

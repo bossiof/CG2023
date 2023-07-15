@@ -1626,76 +1626,6 @@ std::vector<VkVertexInputAttributeDescription> VertexDescriptor::getAttributeDes
 	return attributeDescriptions;
 }
 
-
-
-template <class Vert>
-void Model<Vert>::loadModelOBJ(std::string file) {
-	tinyobj::attrib_t attrib;
-	std::vector<tinyobj::shape_t> shapes;
-	std::vector<tinyobj::material_t> materials;
-	std::string warn, err;
-	
-	std::cout << "Loading : " << file << "[OBJ]\n";	
-	if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err,
-						  file.c_str())) {
-		throw std::runtime_error(warn + err);
-	}
-	
-	std::cout << "Building\n";	
-//	std::cout << "Position " << VD->Position.hasIt << "," << VD->Position.offset << "\n";	
-//	std::cout << "UV " << VD->UV.hasIt << "," << VD->UV.offset << "\n";	
-//	std::cout << "Normal " << VD->Normal.hasIt << "," << VD->Normal.offset << "\n";	
-	for (const auto& shape : shapes) {
-		for (const auto& index : shape.mesh.indices) {
-			Vert vertex{};
-			glm::vec3 pos = {
-				attrib.vertices[3 * index.vertex_index + 0],
-				attrib.vertices[3 * index.vertex_index + 1],
-				attrib.vertices[3 * index.vertex_index + 2]
-			};
-			if(VD->Position.hasIt) {
-				glm::vec3 *o = (glm::vec3 *)((char*)(&vertex) + VD->Position.offset);
-				*o = pos;
-			}
-			
-			glm::vec3 color = {
-				attrib.colors[3 * index.vertex_index + 0],
-				attrib.colors[3 * index.vertex_index + 1],
-				attrib.colors[3 * index.vertex_index + 2]
-			};
-			if(VD->Color.hasIt) {
-				glm::vec3 *o = (glm::vec3 *)((char*)(&vertex) + VD->Color.offset);
-				*o = color;
-			}
-			
-			glm::vec2 texCoord = {
-				attrib.texcoords[2 * index.texcoord_index + 0],
-				1 - attrib.texcoords[2 * index.texcoord_index + 1] 
-			};
-			if(VD->UV.hasIt) {
-				glm::vec2 *o = (glm::vec2 *)((char*)(&vertex) + VD->UV.offset);
-				*o = texCoord;
-			}
-
-			glm::vec3 norm = {
-				attrib.normals[3 * index.normal_index + 0],
-				attrib.normals[3 * index.normal_index + 1],
-				attrib.normals[3 * index.normal_index + 2]
-			};
-			if(VD->Normal.hasIt) {
-				glm::vec3 *o = (glm::vec3 *)((char*)(&vertex) + VD->Normal.offset);
-				*o = norm;
-			}
-			
-			vertices.push_back(vertex);
-			indices.push_back(vertices.size()-1);
-		}
-	}
-	std::cout << "[OBJ] Vertices: "<< vertices.size() << "\n";
-	std::cout << "Indices: "<< indices.size() << "\n";
-	
-}
-
 void Texture::createTextureImage(const char *const files[], VkFormat Fmt = VK_FORMAT_R8G8B8A8_SRGB) {
 	int texWidth, texHeight, texChannels;
 	int curWidth = -1, curHeight = -1, curChannels = -1;
@@ -1811,7 +1741,7 @@ void Texture::createTextureSampler(
 	
 
 
-void Texture::init(BaseProject *bp, const char *  file, VkFormat Fmt = VK_FORMAT_R8G8B8A8_SRGB, bool initSampler = true) {
+void Texture::init(BaseProject *bp, const char *  file, VkFormat Fmt, bool initSampler) {
 	const char *files[1] = {file};
 	BP = bp;
 	imgs = 1;

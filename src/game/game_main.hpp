@@ -13,23 +13,29 @@ protected:
 
     // Use this to define a new DSL
     DescriptorSetLayout
-        someSetLayout;
+        DSLUniverse;
 
     // Use this to define a new VertexDescriptor
     VertexDescriptor
-        someVertexDescriptor;
+        VUniverse;
 
     // Use this to define new pipelines
     // (may be managed by a custom loader)
     Pipeline
-        somePieline;
+        PPlain;
 
     // Use this to save model data    
-    Model<VertexNormUV>
-        someModel;
+    Model<VertexUV>
+        MUniverse;
 
     Texture
-        someTexture;
+        TUniverse;
+    
+    DescriptorSet
+        DSUniverse;
+    
+    PlainUniformBlock
+        uboPlain;
 
     // Global variables for the application
 
@@ -45,6 +51,8 @@ protected:
     void updateUniformBuffer(uint32_t currentImage);
 
     void gameLogic(GameModel& game);
+
+    void drawScreen(GameModel& game, uint32_t currentImage);
 };
 
 #endif//GAME_MAIN_HPP

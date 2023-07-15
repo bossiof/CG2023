@@ -3,24 +3,26 @@
 
 #include <glm/glm.hpp>
 
-struct MeshUniformBlock {
-	alignas(4) float amb;
-	alignas(4) float gamma;
-	alignas(16) glm::vec3 sColor;
+struct UniformBufferObject {
 	alignas(16) glm::mat4 mvpMat;
 	alignas(16) glm::mat4 mMat;
 	alignas(16) glm::mat4 nMat;
 };
 
-struct OverlayUniformBlock {
-	alignas(4) float visible;
+struct GlobalUniformBufferObject {
+	alignas(16) glm::vec3 lightDir;
+	alignas(16) glm::vec4 lightColor;
+	alignas(16) glm::vec3 eyePos;
 };
 
-struct GlobalUniformBlock {
-	alignas(16) glm::vec3 DlightDir;
-	alignas(16) glm::vec3 DlightColor;
-	alignas(16) glm::vec3 AmbLightColor;
-	alignas(16) glm::vec3 eyePos;
+struct VertexUV {
+	glm::vec3 pos;
+	glm::vec2 UV;
+};
+
+struct PlainUniformBlock {
+	alignas(16) glm::mat4 mvpMat;
+	alignas(16) glm::mat4 mMat;
 };
 
 // The vertices data structures
