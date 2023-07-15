@@ -1,8 +1,9 @@
 #include "game_main.hpp"
+#include "glm/ext/quaternion_geometric.hpp"
 #include "project_setup.hpp"
 #include <iostream>
 
-#define SPEED_EFFECT_DAMPING 4.0f
+#define SPEED_EFFECT_DAMPING 2.0f
 
 // Generic damp function
 template <class T>
@@ -49,6 +50,7 @@ void GameMain::gameLogic(GameModel& game) {
 	bool fire = false;
 	this->getSixAxis(deltaT, m, r, fire);
 	
+	game.time += deltaT;
 
 	static float
 		MOVE_SPEED = 2,
@@ -62,12 +64,12 @@ void GameMain::gameLogic(GameModel& game) {
 	if(fire) {
 		MOVE_SPEED = 8;
 		if(m.z > 0) {
-			FOVy = glm::radians(170.0f);
-			r.x *= 0.2; // You are going into the hyperspace, drift with care
-			r.y *= 0.2;
+			FOVy = glm::radians(100.0f);
+			r.x *= 0.5; // You are going into the hyperspace, drift with care
+			r.y *= 0.5;
 		}
 	} else {
-		MOVE_SPEED = 1;
+		MOVE_SPEED = 2;
 		FOVy = glm::radians(45.0f);
 	}
 
@@ -103,6 +105,12 @@ void GameMain::gameLogic(GameModel& game) {
 	//we do not use the left and right translation on the starship
 	game.character->position += MOVE_SPEED * m.y * uy * deltaT;
 	game.character->position += MOVE_SPEED * m.z * uz * deltaT;
+
+	float dist = glm::length(game.character->position);
+
+	if(dist > 40) {
+		game.character->position *= 40.0f / dist;
+	}
 
 	glm::vec3 targetPosition = game.character->position;
 	//the camera position is based on the target position with two rotations and a translation at a certain distance

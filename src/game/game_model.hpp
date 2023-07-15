@@ -14,6 +14,7 @@ class PowerUp;
 
 class GameModel {
 public:
+    float time;
     glm::mat4 fixed_ViewPrj,ViewPrj, World;
     SpaceShip* character;
     std::vector<Asteroid> asteroids;
