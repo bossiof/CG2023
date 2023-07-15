@@ -61,7 +61,7 @@ void GameMain::localInit() {
         OBJ);
     
     TUniverse.init(this,
-        "Assets/Textures/universo4.jpg");
+        "Assets/Textures/HDRI-space2.jpeg");
 
     TMesh.init(this,
         "Assets/Textures/starship_textures.png");
