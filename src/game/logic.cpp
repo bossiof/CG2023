@@ -122,6 +122,7 @@ void GameMain::gameLogic(GameModel& game) {
 	glm::mat4 fixed_Mprj = glm::perspective(fixed_FOVy, Ar, nearPlane, farPlane);
 
 	//view matrix
+	DAMP(glm::vec3, cameraPosition, ROTATION_EFFECT_DAMPING);
 	glm::mat4 Mv =glm::lookAt(cameraPosition, targetPosition, uy);
 	Mprj[1][1] *= -1;
 	fixed_Mprj[1][1] *= -1;
@@ -129,6 +130,5 @@ void GameMain::gameLogic(GameModel& game) {
 	game.ViewPrj =Mprj*Mv;
 	game.fixed_ViewPrj =fixed_Mprj*Mv;
 	//world matrix
-	DAMP(glm::mat4, MQ, ROTATION_EFFECT_DAMPING);
 	game.World =  glm::translate(glm::mat4(1.0), game.character->position) * MQ ;
 }
