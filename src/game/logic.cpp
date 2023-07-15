@@ -48,10 +48,13 @@ void GameMain::gameLogic(GameModel& game) {
 	glm::vec3 m = glm::vec3(0.0f), r = glm::vec3(0.0f);
 	bool fire = false;
 	this->getSixAxis(deltaT, m, r, fire);
+	
 
 	static float
 		MOVE_SPEED = 2,
 		MOVE_SPEEDOld = MOVE_SPEED;
+	static float fixed_FOVy = glm::radians(45.0f);
+
 	static float
 		FOVy = glm::radians(45.0f),
 		FOVyOld = FOVy;
@@ -108,10 +111,15 @@ void GameMain::gameLogic(GameModel& game) {
 	glm::mat4 camera_shift= glm::mat4(1);
 	//projection matrix
 	glm::mat4 Mprj = glm::perspective(FOVy, Ar, nearPlane, farPlane);
+	glm::mat4 fixed_Mprj = glm::perspective(fixed_FOVy, Ar, nearPlane, farPlane);
+
 	//view matrix
 	glm::mat4 Mv =glm::lookAt(cameraPosition, targetPosition, uy);
 	Mprj[1][1] *= -1;
+	fixed_Mprj[1][1] *= -1;
+
 	game.ViewPrj =Mprj*Mv;
+	game.fixed_ViewPrj =fixed_Mprj*Mv;
 	//world matrix
 	game.World =  glm::translate(glm::mat4(1.0), game.character->position) * MQ ;
 }

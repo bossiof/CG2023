@@ -7,4 +7,10 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     uboUniverse.mvpMat = game.ViewPrj * uboUniverse.mMat;
 
     DSUniverse.map(currentImage, &uboUniverse, sizeof(uboUniverse), 0);
+
+    uboMesh.mMat = game.World;
+    uboMesh.mvpMat = game.fixed_ViewPrj * uboMesh.mMat;
+
+    DSMesh.map(currentImage, &uboMesh, sizeof(uboMesh), 0);
+
 }

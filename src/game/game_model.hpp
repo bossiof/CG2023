@@ -14,7 +14,7 @@ class PowerUp;
 
 class GameModel {
 public:
-    glm::mat4 ViewPrj, World;
+    glm::mat4 fixed_ViewPrj,ViewPrj, World;
     SpaceShip* character;
     std::vector<Asteroid> asteroids;
     std::vector<Checkpoint> checkpoints;
