@@ -17,6 +17,7 @@ static inline T damp(T oldVal, T newVal, float lambda, float dt) {
 
 #define DAMP(T, val, lambda)\
 	do{\
+		static T val##Old = val;\
 		val = damp<T>(val##Old, val, lambda, deltaT);\
 		val##Old = val;\
 	}while(0)
@@ -55,13 +56,11 @@ void GameMain::gameLogic(GameModel& game) {
 	game.time += deltaT;
 
 	static float
-		MOVE_SPEED = 2,
-		MOVE_SPEEDOld = MOVE_SPEED;
+		MOVE_SPEED = 2;
 	static float fixed_FOVy = glm::radians(45.0f);
 
 	static float
-		FOVy = glm::radians(45.0f),
-		FOVyOld = FOVy;
+		FOVy = glm::radians(45.0f);
 
 	if(fire) {
 		MOVE_SPEED = 8;
@@ -95,7 +94,6 @@ void GameMain::gameLogic(GameModel& game) {
 		* glm::rotate(glm::quat(1,0,0,0), CamRoll, glm::vec3(0,0,1));
 
 	glm::mat4 MQ = glm::mat4(game.character->rotation);
-	static glm::mat4 MQOld(MQ);
 
 	glm::vec3 ux = glm::vec3(MQ * glm::vec4(1,0,0,1));
 	glm::vec3 uy = glm::vec3(MQ * glm::vec4(0,1,0,1));
