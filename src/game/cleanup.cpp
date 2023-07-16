@@ -2,20 +2,24 @@
 
 void GameMain::pipelinesAndDescriptorSetsCleanup() {
     PPlain.cleanup();
-    DSUniverse.cleanup();
-
     PMesh.cleanup();
+
+    DSUniverse.cleanup();
     DSMesh.cleanup();
+    DSSun.cleanup();
 }
 
 void GameMain::localCleanup() {
     TUniverse.cleanup();
-    MUniverse.cleanup();
-    DSLUniverse.cleanup();
-    PPlain.destroy();
-
     TMesh.cleanup();
+
+    MUniverse.cleanup();
     MMesh.cleanup();
+
+    DSLUniverse.cleanup();
     DSLSPaceShip.cleanup();
+    DSLSun.cleanup();
+
+    PPlain.destroy();
     PMesh.destroy();
 }

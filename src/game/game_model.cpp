@@ -4,12 +4,21 @@
 
 GameModel::GameModel() {
     character = new SpaceShip(glm::vec3(0,0,0), 1);
+    camera = new GenericObject(glm::vec3(0,0,0));
+    // this has to be fixed
+    sun = new GenericObject(glm::vec3(0,-50,0));
     logDebug("Created GameModel");
 }
 
 GameModel::~GameModel() {
     logDebug("Destroyed GameModel");
     delete character;
+    delete camera;
+    delete sun;
+}
+
+GenericObject::GenericObject(glm::vec3 position) {
+    this->position = position;
 }
 
 ColliderObject::ColliderObject(glm::vec3 position, float radius) {

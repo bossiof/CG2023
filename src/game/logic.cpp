@@ -5,7 +5,7 @@
 #include <iostream>
 
 #define SPEED_EFFECT_DAMPING 2.0f
-#define ROTATION_EFFECT_DAMPING 4.0f
+#define ROTATION_EFFECT_DAMPING 8.0f
 
 // Generic damp function
 template <class T>
@@ -109,20 +109,21 @@ void GameMain::gameLogic(GameModel& game) {
 
 	float dist = glm::length(game.character->position);
 
-	if(dist > 40) {
-		game.character->position *= 40.0f / dist;
-	}
+	if(dist > 40) { game.character->position *= 40.0f / dist; } // Prevent from going outside the map
 
 	glm::vec3 targetPosition = game.character->position;
 	//the camera position is based on the target position with two rotations and a translation at a certain distance
 	glm::vec3 cameraPosition = targetPosition+ camHeight*uy-camDist*uz;
+
+	DAMP(glm::vec3, cameraPosition, ROTATION_EFFECT_DAMPING);
+
+	game.camera->position = cameraPosition;
 
 	//projection matrix
 	glm::mat4 Mprj = glm::perspective(FOVy, Ar, nearPlane, farPlane);
 	glm::mat4 fixed_Mprj = glm::perspective(fixed_FOVy, Ar, nearPlane, farPlane);
 
 	//view matrix
-	DAMP(glm::vec3, cameraPosition, ROTATION_EFFECT_DAMPING);
 	glm::mat4 Mv =glm::lookAt(cameraPosition, targetPosition, uy);
 	Mprj[1][1] *= -1;
 	fixed_Mprj[1][1] *= -1;
@@ -130,5 +131,5 @@ void GameMain::gameLogic(GameModel& game) {
 	game.ViewPrj =Mprj*Mv;
 	game.fixed_ViewPrj =fixed_Mprj*Mv;
 	//world matrix
-	game.World =  glm::translate(glm::mat4(1.0), game.character->position) * MQ ;
+	game.World =  glm::translate(glm::mat4(1.0), game.character->position) * MQ;
 }

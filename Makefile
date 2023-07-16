@@ -131,4 +131,9 @@ reset:
 .PHONY: shaders
 shaders: $(SHADERS)
 
+# clean shaders only
+.PHONY: clean-shaders
+clean-shaders:
+	$(RM) $(SHA)/*.spv
+
 -include $(DEPENDS)

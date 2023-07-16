@@ -17,6 +17,7 @@ protected:
 
     // Use this to define a new DSL
     DescriptorSetLayout
+        DSLSun,
         DSLUniverse,
         DSLSPaceShip;
 
@@ -33,7 +34,8 @@ protected:
 
     // Use this to save model data    
     Model<VertexUV>
-        MUniverse,
+        MUniverse;
+    Model<VertexNormUV>
         MMesh;
 
     Texture
@@ -41,11 +43,17 @@ protected:
         TMesh;
     
     DescriptorSet
+        DSSun,
         DSUniverse,
         DSMesh;
+
+    GlobalUniformBlockPointLight
+        guboPLSun;
     
     PlainUniformBlock
-        uboUniverse,
+        uboUniverse;
+    
+    MeshUniformBlock
         uboMesh;
 
     glm::mat4
