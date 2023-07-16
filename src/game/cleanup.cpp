@@ -16,6 +16,7 @@ void GameMain::localCleanup() {
     TUniverse.cleanup();
     TMesh.cleanup();
     TMeshNorm.cleanup();
+    //TMeshMap.cleanup();
     TSun.cleanup();
 
     MUniverse.cleanup();

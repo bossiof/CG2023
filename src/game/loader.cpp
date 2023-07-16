@@ -99,6 +99,8 @@ void GameMain::localInit() {
         "Assets/Textures/starship_textures.png");
     TMeshNorm.init(this,
         "Assets/Textures/starship_norm.png");
+    //TMeshMap.init(this,
+    //    "Assets/Textures/Metals_09_met_rough_ao.png");
 
     TSun.init(this,
         "Assets/Textures/8k_sun.jpg");

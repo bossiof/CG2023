@@ -46,6 +46,7 @@ protected:
         TUniverse,
         TMesh,
         TMeshNorm,
+        //TMeshMap,
         TSun;
     
     DescriptorSet

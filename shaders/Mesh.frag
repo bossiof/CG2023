@@ -17,33 +17,35 @@ layout(set = 1, binding = 1) uniform sampler2D tex;
 layout(set = 1, binding = 2) uniform sampler2D norm;
 
 const float beta = 0.1f;
-const float g = 8;	
+const float g = 8;
+
+vec3 BRDF(vec3 V, vec3 N, vec3 L, vec3 Md, float sigma) {
+
+	float theta_i = pow(cos(dot(L,N)),-1);
+	float theta_r = pow(cos(dot(V,N)),-1);
+	float alpha   =	max(theta_i,theta_r);
+	float beta	  =	min(theta_i,theta_r);
+	float A		  = 1 - (0.5*(pow(sigma,2)/(pow(sigma,2)+0.33)));
+	float B 	  = 0.45*(pow(sigma,2)/(pow(sigma,2)+0.09));
+	vec3 vi		  = normalize(L-dot(L,N)*N);
+	vec3 vr		  = normalize(V-dot(V,N)*N);
+	float G 	  = max(0.0,dot(vi,vr));
+	vec3 L_O_N    = Md*clamp(dot(L,N),0.0,1.0);
+	vec3 Oren_Nayar = L_O_N*(A+(B*G*sin(alpha)*tan(beta)));
+	return Oren_Nayar;
+}
 
 void main() {
-	vec3 Norm = normalize((fragNorm+ texture(norm, fragUV).xyz) * 2.0 - 1.0);
+	vec3 Norm = normalize(fragNorm);
 	vec3 EyeDir = normalize(gubo.eyePos - fragPos);
-	
-	// replace the following lines with the code to implement a point light model
-	// with the light color in gubo.lightColor, and the position in gubo.lightPos.
-	// the exponent of the decay is in constant variable beta, and the base distance
-	// is in constant g
 
-	// Point light model: for the point model a position is needed to compute different
-	// raylight direction and decay using the following formulas
-	//   for the light directon: $\overrightarrow{lx}=\frac{p-x}{|p-x|}$
-	//   and for the light decay: $L(l,\overrightarrow{lx})=(\frac{g}{|p-x|})^\beta l$
-	//   with:
-	//     l: the light color (and intensity)
-	//     g: indicates te distance where the decay starts having effect
-	//     beta: is the decay factor
-	//     |p - x| is the distance between the light source and the fragment
-	vec3 lightPos = gubo.lightPos;
 	vec3 lightDir = normalize(gubo.lightPos - fragPos);
-	vec3 lightColor = pow(g / distance(lightPos, fragPos), beta) * gubo.lightColor.xyz;
+	vec3 lightColor = gubo.lightColor.rgb;
 
-	vec3 Diffuse = texture(tex, fragUV).rgb * 0.99f * clamp(dot(Norm, lightDir),0.0,1.0);
-	vec3 Specular = vec3(pow(clamp(dot(Norm, normalize(lightDir + EyeDir)),0.0,1.0), 160.0f));
-	vec3 Ambient = texture(tex, fragUV).rgb * 0.2f;
-	
-	outColor = vec4(clamp((Diffuse + Specular) * lightColor.rgb + Ambient,0.0,1.0), 1.0f);
+	vec3 DiffSpec = BRDF(EyeDir, Norm, lightDir, texture(tex, fragUV).rgb, 1.1f);
+	vec3 Ambient = texture(tex, fragUV).rgb * 0.15f;
+
+	outColor = vec4(clamp(0.96 * (DiffSpec) * lightColor.rgb + Ambient,0.0,1.0), 1.0f);
 }
+
+
