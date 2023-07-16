@@ -24,26 +24,32 @@ protected:
     // Use this to define a new VertexDescriptor
     VertexDescriptor
         VUniverse,
-        VSpaceShip;
+        VSpaceShip,
+        VSun;
 
     // Use this to define new pipelines
     // (may be managed by a custom loader)
     Pipeline
         PPlain,
         PMesh;
+        //PSun;
 
     // Use this to save model data    
     Model<VertexUV>
         MUniverse;
     Model<VertexNormUV>
         MMesh;
+    Model<VertexUV>
+        MSun;
 
     Texture
         TUniverse,
         TMesh,
-        TMeshNorm;
+        TMeshNorm,
+        TSun;
     
     DescriptorSet
+        DSSunLight,
         DSSun,
         DSUniverse,
         DSMesh;
@@ -52,6 +58,7 @@ protected:
         guboPLSun;
     
     PlainUniformBlock
+        uboSun,
         uboUniverse;
     
     MeshUniformBlock
@@ -59,6 +66,7 @@ protected:
 
     glm::mat4
         I = glm::mat4(1),   // Since we use it a lot
+        USun, //for the sun scaling
         UGWM;
 
     // Global variables for the application

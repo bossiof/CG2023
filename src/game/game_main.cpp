@@ -14,9 +14,9 @@ void GameMain::setWindowParameters() {
     initialBackgroundColor = {0.0f, 0.005f, 0.01f, 1.0f};
     
     // Descriptor pool sizes
-    uniformBlocksInPool =  3;
-    texturesInPool =  3;
-    setsInPool = 3;
+    uniformBlocksInPool =  4;
+    texturesInPool =  4;
+    setsInPool = 4;
     /* Update the requirements for the size of the pool */
     
     Ar = (float)windowWidth / (float)windowHeight;

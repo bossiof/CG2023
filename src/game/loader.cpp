@@ -1,5 +1,6 @@
 #include "data_types.hpp"
 #include "game_main.hpp"
+#include "project_setup.hpp"
 #include "vulkan/vulkan_core.h"
 #include <cstddef>
 
@@ -43,6 +44,15 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
 
+    VSun.init(this, {
+        {0, sizeof(VertexUV), VK_VERTEX_INPUT_RATE_VERTEX}
+    }, {
+        {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexUV, pos),
+            sizeof(glm::vec3), POSITION},
+        {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexUV, UV),
+            sizeof(glm::vec2), UV}
+    });
+
     PPlain.init(this,
         &VUniverse,
         "shaders/PlainVert.spv",
@@ -61,6 +71,12 @@ void GameMain::localInit() {
         "shaders/MeshFrag.spv",
         {&DSLSun, &DSLSPaceShip});
 
+    /*PSun.init(this,
+        &VSun,
+        "shaders/PlainVert.spv",
+        "shaders/PlainFrag.spv",
+        {&DSLUniverse});//to be edited to accomodate the descriptor set layout for the sun
+    */
     MUniverse.init(this,
         &VUniverse,
         "Assets/Objects/Sphere.gltf",
@@ -71,6 +87,11 @@ void GameMain::localInit() {
         "Assets/Objects/fixed_starship.obj",
         OBJ);
     
+    MSun.init(this,
+        &VSun,
+        "Assets/Objects/Sphere.gltf",
+        GLTF);
+    
     TUniverse.init(this,
         "Assets/Textures/HDRI-space2.jpeg");
 
@@ -79,14 +100,20 @@ void GameMain::localInit() {
     TMeshNorm.init(this,
         "Assets/Textures/starship_norm.png");
 
+    TSun.init(this,
+        "Assets/Textures/8k_sun.jpg");
+
     // Space for other custom variables
     // Global World Matrix for universe
     UGWM = glm::scale(I, glm::vec3(50));
+    USun = glm::scale(I, glm::vec3(10));
+
 }
 
 void GameMain::pipelinesAndDescriptorSetsInit() {
     PPlain.create();
     PMesh.create();
+    //PSun.create();
 
     DSUniverse.init(this, &DSLUniverse, {
         {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
@@ -99,7 +126,12 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {2, TEXTURE, 0, &TMeshNorm}
     });
 
-    DSSun.init(this, &DSLSun, {
+    DSSun.init(this, &DSLUniverse, {
+        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
+        {1, TEXTURE, 0, &TSun}
+    });
+
+    DSSunLight.init(this, &DSLSun, {
         {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
     });
 }
@@ -115,9 +147,16 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
-    
-    DSSun.bind(commandBuffer, PMesh, 0, currentImage);
-
+    //PSun.bind(commandBuffer);
+    MSun.bind(commandBuffer);
+    DSSun.bind(commandBuffer, PPlain, 0, currentImage);
+    vkCmdDrawIndexed(commandBuffer,
+        static_cast<uint32_t>(MSun.indices.size()),
+        1,
+        0,
+        0 ,
+        0);
+    DSSunLight.bind(commandBuffer, PMesh, 0, currentImage);
     PMesh.bind(commandBuffer);
     
     MMesh.bind(commandBuffer);
@@ -128,4 +167,5 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
+
 }

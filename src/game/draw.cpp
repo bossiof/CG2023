@@ -1,5 +1,6 @@
 #include "game_main.hpp"
 #include "game_model.hpp"
+#include "glm/ext/matrix_transform.hpp"
 #include "glm/matrix.hpp"
 #include "glm/trigonometric.hpp"
 #include "log.h"
@@ -15,10 +16,14 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     uboUniverse.mvpMat = game.ViewPrj * uboUniverse.mMat;
     DSUniverse.map(currentImage, &uboUniverse, sizeof(uboUniverse), 0);
 
+    uboSun.mMat = glm::translate(I, game.sun->position)*USun;
+            
+    uboSun.mvpMat = game.ViewPrj * uboSun.mMat;
+    DSSun.map(currentImage,&uboSun, sizeof(uboSun), 0);
     guboPLSun.lightPos = game.sun->position;
     guboPLSun.lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     guboPLSun.eyePos = game.camera->position;
-    DSSun.map(currentImage, &guboPLSun, sizeof(guboPLSun), 0);
+    DSSunLight.map(currentImage, &guboPLSun, sizeof(guboPLSun), 0);
     
     uboMesh.mMat = game.World;
     uboMesh.mvpMat = game.fixed_ViewPrj * uboMesh.mMat;
