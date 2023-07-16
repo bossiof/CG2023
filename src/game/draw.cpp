@@ -8,7 +8,7 @@
 
 void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
 
-    uboUniverse.mMat = glm::translate(I, game.character->position * 0.6f) * UGWM
+    uboUniverse.mMat = UGWM
         * glm::rotate(
             I,
             glm::radians(1.0f) * game.time,

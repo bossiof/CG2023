@@ -14,7 +14,6 @@ layout(set = 0, binding = 0) uniform GlobalUniformBufferObject {
 } gubo;
 
 layout(set = 1, binding = 1) uniform sampler2D tex;
-layout(set = 1, binding = 2) uniform sampler2D norm;
 
 const float beta = 0.1f;
 const float g = 8;
