@@ -15,7 +15,7 @@ void GameMain::setWindowParameters() {
     
     // Descriptor pool sizes
     uniformBlocksInPool =  3;
-    texturesInPool =  2;
+    texturesInPool =  3;
     setsInPool = 3;
     /* Update the requirements for the size of the pool */
     

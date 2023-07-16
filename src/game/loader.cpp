@@ -15,7 +15,8 @@ void GameMain::localInit() {
 
     DSLSPaceShip.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
-        {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
+        {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT},
+        {2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
 
     DSLSun.init(this, {
@@ -75,6 +76,8 @@ void GameMain::localInit() {
 
     TMesh.init(this,
         "Assets/Textures/starship_textures.png");
+    TMeshNorm.init(this,
+        "Assets/Textures/starship_norm.png");
 
     // Space for other custom variables
     // Global World Matrix for universe
@@ -92,7 +95,8 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
 
     DSMesh.init(this, &DSLSPaceShip, {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
-        {1, TEXTURE, 0, &TMesh}
+        {1, TEXTURE, 0, &TMesh},
+        {2, TEXTURE, 0, &TMeshNorm}
     });
 
     DSSun.init(this, &DSLSun, {
@@ -115,6 +119,7 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
     DSSun.bind(commandBuffer, PMesh, 0, currentImage);
 
     PMesh.bind(commandBuffer);
+    
     MMesh.bind(commandBuffer);
     DSMesh.bind(commandBuffer, PMesh, 1, currentImage);
     vkCmdDrawIndexed(commandBuffer,

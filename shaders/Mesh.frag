@@ -14,12 +14,13 @@ layout(set = 0, binding = 0) uniform GlobalUniformBufferObject {
 } gubo;
 
 layout(set = 1, binding = 1) uniform sampler2D tex;
+layout(set = 1, binding = 2) uniform sampler2D norm;
 
 const float beta = 0.1f;
 const float g = 8;	
 
 void main() {
-	vec3 Norm = normalize(fragNorm);
+	vec3 Norm = normalize((fragNorm+ texture(norm, fragUV).xyz) * 2.0 - 1.0);
 	vec3 EyeDir = normalize(gubo.eyePos - fragPos);
 	
 	// replace the following lines with the code to implement a point light model

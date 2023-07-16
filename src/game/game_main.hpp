@@ -40,7 +40,8 @@ protected:
 
     Texture
         TUniverse,
-        TMesh;
+        TMesh,
+        TMeshNorm;
     
     DescriptorSet
         DSSun,

@@ -12,6 +12,7 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
 void GameMain::localCleanup() {
     TUniverse.cleanup();
     TMesh.cleanup();
+    TMeshNorm.cleanup();
 
     MUniverse.cleanup();
     MMesh.cleanup();
