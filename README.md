@@ -16,9 +16,9 @@ The Mmakefile is a modified version of [tomdaley92/makefile](https://gist.github
   - [ ] Optional collision with obstacles
 - [x] Basic movement logic
 - [x] S P E E D effect
-- [ ] Space setting
-- [ ] Model sun as point light
+- [x] Space setting
+- [x] Model sun as point light
 - [ ] Different planet/object models
-- [ ] Skybox effects with shaders, try using lightmap
+- [x] Skybox effects with shaders
 - [ ] Implement movement inertia
 - [ ] Implement rotation inertia
