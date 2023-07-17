@@ -34,7 +34,7 @@ void GameMain::gameLogic(GameModel& game) {
 	const float minPitch = glm::radians(-90.0f);
 	const float maxPitch = glm::radians(90.0f);
 	//camera roll limits
-		const float minRoll = glm::radians(-90.0f);
+	const float minRoll = glm::radians(-90.0f);
 	const float maxRoll = glm::radians(90.0f);
 	//camera Yaw limits
 	const float minYaw = glm::radians(-90.0f);
@@ -57,6 +57,8 @@ void GameMain::gameLogic(GameModel& game) {
 
 	static float
 		MOVE_SPEED = 2;
+	static float Extra=0;
+	static float CAP_SPEED=15;
 	static float fixed_FOVy = glm::radians(45.0f);
 
 	static float
@@ -64,6 +66,7 @@ void GameMain::gameLogic(GameModel& game) {
 
 	if(fire) {
 		MOVE_SPEED = 8;
+		Extra=25; //I want to go really fast foward
 		if(m.z > 0) {
 			FOVy = glm::radians(100.0f);
 			r.x *= 0.5; // You are going into the hyperspace, drift with care
@@ -72,6 +75,7 @@ void GameMain::gameLogic(GameModel& game) {
 	} else {
 		MOVE_SPEED = 2;
 		FOVy = glm::radians(45.0f);
+		float MAX_SPEED=20; 
 	}
 
 	// Game Logic implementation
@@ -102,10 +106,17 @@ void GameMain::gameLogic(GameModel& game) {
 	DAMP(float, MOVE_SPEED, SPEED_EFFECT_DAMPING);
 	DAMP(float, FOVy, SPEED_EFFECT_DAMPING);
 
-	//we calculate initial position 
-	//we do not use the left and right translation on the starship
-	game.character->position += MOVE_SPEED * m.y * uy * deltaT;
-	game.character->position += MOVE_SPEED * m.z * uz * deltaT;
+	static float Momentum; 
+	
+	if(m.z>0)Momentum+=MOVE_SPEED*deltaT;
+	else if(m.z<0) Momentum-=3*MOVE_SPEED*deltaT; //3* to make it hadle better
+	else Momentum-=Momentum*(deltaT); //decrease speed gradually
+	Momentum=glm::max(-CAP_SPEED/3.0f,glm::min(Momentum,CAP_SPEED+Extra)); //caps the speed, I wanna be slower in reverse cuz game mechanics
+
+	//we calculatSe initial position 
+	//we do not use the left/right up/down translation on the starship
+	//game.character->position += Momentum.y * uy * deltaT; //for debugging
+	game.character->position += Momentum * uz * deltaT;
 
 	float dist = glm::length(game.character->position);
 
