@@ -4,6 +4,9 @@
 #include "project_setup.hpp"
 #include <iostream>
 
+// Handle control logic, be sure to dump needed values in the
+// GameModel variables
+
 #define SPEED_EFFECT_DAMPING 2.0f
 #define ROTATION_EFFECT_DAMPING 8.0f
 

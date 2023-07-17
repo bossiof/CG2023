@@ -8,6 +8,7 @@
 
 void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
 
+    // Set universe properties and map it
     uboUniverse.mMat = UGWM
         * glm::rotate(
             I,
@@ -15,16 +16,20 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
             glm::vec3(1,0,0));
     uboUniverse.mvpMat = game.ViewPrj * uboUniverse.mMat;
     DSUniverse.map(currentImage, &uboUniverse, sizeof(uboUniverse), 0);
-
-    uboSun.mMat = glm::translate(I, game.sun->position)*USun;
-            
-    uboSun.mvpMat = game.ViewPrj * uboSun.mMat;
-    DSSun.map(currentImage,&uboSun, sizeof(uboSun), 0);
+    
+    // Set sunlight properties and map it
     guboPLSun.lightPos = game.sun->position;
     guboPLSun.lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     guboPLSun.eyePos = game.camera->position;
     DSSunLight.map(currentImage, &guboPLSun, sizeof(guboPLSun), 0);
+
+    // Set sun model properteies and map it
+    uboSun.mMat = glm::translate(I, game.sun->position)*USun;
+    uboSun.mvpMat = game.ViewPrj * uboSun.mMat;
+    DSSun.map(currentImage,&uboSun, sizeof(uboSun), 0);
     
+    // Set mesh properties and map it
+    // NEEDS SunLight to be set
     uboMesh.mMat = game.World;
     uboMesh.mvpMat = game.fixed_ViewPrj * uboMesh.mMat;
     uboMesh.nMat = glm::inverse(glm::transpose(game.World));

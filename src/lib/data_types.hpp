@@ -21,12 +21,15 @@ struct PlainUniformBlock {
 	alignas(16) glm::mat4 mMat;
 };
 
+// Define vertext types
+
+// Only contains position and UV
 struct VertexUV {
 	glm::vec3 pos;
 	glm::vec2 UV;
 };
 
-// The vertices data structures
+// Also contains normals
 struct VertexNormUV {
 	glm::vec3 pos;
 	glm::vec3 norm;
