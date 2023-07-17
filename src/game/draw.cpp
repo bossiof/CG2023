@@ -43,13 +43,15 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     for(int i = 0; i<5; i++) {
         // Set mesh properties and map it
         // NEEDS SunLight to be set
-        uboAsteroids.mMat = glm::translate(I, game.asteroids[i].position)
+        uboMesh.mMat = glm::translate(I, game.asteroids[i].position)
+            * Uast
+            * glm::scale(I, glm::vec3(game.asteroids[i].radius))
             * glm::rotate(
                 I,
                 glm::radians(20.0f) * game.time,
                 glm::normalize(game.asteroids[i].position + glm::vec3(0,1,0)));
-        uboAsteroids.mvpMat = game.ViewPrj * uboAsteroids.mMat;
-        uboAsteroids.nMat = glm::inverse(glm::transpose(uboAsteroids.mMat));
-        DSAsteroids[i].map(currentImage, &uboAsteroids, sizeof(uboAsteroids), 0);
+        uboMesh.mvpMat = game.ViewPrj * uboMesh.mMat;
+        uboMesh.nMat = glm::inverse(glm::transpose(uboMesh.mMat));
+        DSAsteroids[i].map(currentImage, &uboMesh, sizeof(uboMesh), 0);
     }
 }

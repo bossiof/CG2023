@@ -87,8 +87,7 @@ protected:
     
     // UBO for meshes (elements which interact with light)
     MeshUniformBlock
-        uboMesh,
-        uboAsteroids;
+        uboMesh;
 
     // Define matrices statically used by the program
     // EG: matricess to properly scale the sun or the universe
@@ -97,6 +96,7 @@ protected:
     glm::mat4
         I = glm::mat4(1),   // Since we use it a lot
         USun, //for the sun scaling
+        Uast,
         UGWM;
 
     void setWindowParameters();

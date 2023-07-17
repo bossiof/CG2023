@@ -184,6 +184,7 @@ void GameMain::localInit() {
     UGWM = glm::scale(I, glm::vec3(50));
     // Global World Matrix for the sun
     USun = glm::scale(I, glm::vec3(10));
+    Uast = glm::scale(I, glm::vec3(1.25));
 
 }
 

@@ -36,9 +36,9 @@ public:
 };
 
 class ColliderObject {
-    float radius;
 public:
     glm::vec3 position;
+    float radius;
     ColliderObject(glm::vec3 position, float radius);
     bool collision(ColliderObject& other);
     virtual void applyEffect(GameModel& game) {};

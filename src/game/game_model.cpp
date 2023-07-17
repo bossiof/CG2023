@@ -4,11 +4,11 @@
 
 namespace glm {
     Asteroid positions[] = {
-        Asteroid(vec3(3,0,0),    1),
-        Asteroid(vec3(0,3,0),    1),
-        Asteroid(vec3(0,0,3),    1),
-        Asteroid(vec3(-3,-3,-3), 1),
-        Asteroid(vec3(3,3,3),    1)
+        Asteroid(vec3(20,0,0),    4),
+        Asteroid(vec3(0,15,0),    2),
+        Asteroid(vec3(0,0,10),    8),
+        Asteroid(vec3(10,-10,-10), 6),
+        Asteroid(vec3(-20,-30,12),    10)
     };
 }
 
@@ -16,7 +16,7 @@ GameModel::GameModel() {
     character = new SpaceShip(glm::vec3(0,0,0), 0.1);
     camera = new GenericObject(glm::vec3(0,0,0));
     // this has to be fixed
-    sun = new GenericObject(glm::vec3(0,50,0));
+    sun = new GenericObject(glm::vec3(0,-50,0));
     for (Asteroid el : glm::positions) {
         asteroids.push_back(el);
     }
