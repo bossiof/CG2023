@@ -19,7 +19,8 @@ protected:
     DescriptorSetLayout
         DSLSun,
         DSLUniverse,
-        DSLSPaceShip;
+        DSLSPaceShip,
+        DSLAsteroids;
 
     // Define a new of type Vertex Descriptor
     VertexDescriptor

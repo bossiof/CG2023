@@ -75,8 +75,11 @@ void GameMain::localInit() {
     //      1. Vertex types
     //      2. Vertex shader
     //      3. Fragment shader
-    //      4. Vector of descriptor sets
+    //      4. Vector of descriptor (the order is the same used in the shader:
+    //          set = 0, set = 1, ...)
     // That you intend to use
+    // Be sure to actually create it in the next function
+    // (pipelinesAndDescriptorSetsInit)
     // Be sure to cleanup and to destroy this at
     // src/game/cleanup.cpp
     PPlain.init(this,
@@ -156,6 +159,17 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     PMesh.create();
     //PSun.create();
 
+    // Initialize the Descriptor Set specifying
+    //      1. A reference to its layout
+    //      2. A vector containing an element for each binding provided, which indicate:
+    //          1. The binding number
+    //          2. UNIFORM/TEXTURE, (descriptor to indicate the type of the binding)
+    //          3. if UNIFORM -> Size of the corresponding object
+    //              | 0 othewise
+    //          4. if TEXTURE -> Reference to the texture data
+    //              | nullptr otherwise
+    // Be sure to cleanup these at
+    // src/game/cleanup.cpp
     DSUniverse.init(this, &DSLUniverse, {
         {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
         {1, TEXTURE, 0, &TUniverse}
@@ -179,6 +193,14 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
 
 void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentImage) {
 
+    // Steps to populate the command buffer and actually draw elements
+    //      - Set the proper pipeline
+    //      - Set the desired object
+    //      - Set the need DescriptorSets, also specifying
+    //          1. The pipeline to use
+    //          2. The ID to map the set to (as used in the shader)
+    //      - Invoke the function to actually draw the elements,
+    //        additional parameters are required
     PPlain.bind(commandBuffer);
     MUniverse.bind(commandBuffer);
     DSUniverse.bind(commandBuffer, PPlain, 0, currentImage);

@@ -7,7 +7,11 @@
 #include <iostream>
 
 void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
-
+    // For each element:
+    //      - Set the needed values
+    //      - With the Descriptor Set, map the element to the image, specifying
+    //          1. The object to pass, containing data for the mapping
+    //          2. Its size
     // Set universe properties and map it
     uboUniverse.mMat = UGWM
         * glm::rotate(
