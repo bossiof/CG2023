@@ -61,7 +61,7 @@ void GameMain::gameLogic(GameModel& game) {
 	static float
 		MOVE_SPEED = 2;
 	static float Extra=0;
-	static float CAP_SPEED=15;
+	static float CAP_SPEED=8;
 	static float fixed_FOVy = glm::radians(45.0f);
 
 	static float
@@ -116,10 +116,17 @@ void GameMain::gameLogic(GameModel& game) {
 	else Momentum-=Momentum*(deltaT); //decrease speed gradually
 	Momentum=glm::max(-CAP_SPEED/3.0f,glm::min(Momentum,CAP_SPEED+Extra)); //caps the speed, I wanna be slower in reverse cuz game mechanics
 
+	glm::vec3 tmp_position = game.character->position;
+
 	//we calculatSe initial position 
 	//we do not use the left/right up/down translation on the starship
 	//game.character->position += Momentum.y * uy * deltaT; //for debugging
 	game.character->position += Momentum * uz * deltaT;
+	//we calculate initial position 
+	//we do not use the left and right translation on the starship
+	
+	if(game.collision())
+		game.character->position = tmp_position;
 
 	float dist = glm::length(game.character->position);
 

@@ -26,12 +26,14 @@ protected:
     VertexDescriptor
         VUniverse,
         VSpaceShip,
+        VAsteroids,
         VSun;
 
     // Create a new custom pipeline
     Pipeline
         PPlain,
-        PMesh;
+        PMesh,
+        PAsteroids;
         //PSun;
 
     // Objects to keep model data, be sure to use the proper
@@ -44,6 +46,9 @@ protected:
         MSun; 
     Model<VertexNormUV>
         MMesh;
+    
+    Model<VertexNormTanUV>
+        MAsteroids;
 
     // Objects to keep texture data
     // When creating a new one, be sure to update
@@ -51,9 +56,9 @@ protected:
     Texture
         TUniverse,
         TMesh,
-        TMeshNorm,
-        //TMeshMap,
-        TSun;
+        TSun,
+        TAsteroids,
+        TAsteroidsNormMap;
     
     // Create a new descriptor set for your pipeline
     // Remember to update
@@ -62,7 +67,8 @@ protected:
         DSSunLight,
         DSSun,
         DSUniverse,
-        DSMesh;
+        DSMesh,
+        DSAsteroids[5];
 
     // Uniform Blocks Objects are data passed to the GPU
     // Create a new object to pass data to the GPU
@@ -81,7 +87,8 @@ protected:
     
     // UBO for meshes (elements which interact with light)
     MeshUniformBlock
-        uboMesh;
+        uboMesh,
+        uboAsteroids;
 
     // Define matrices statically used by the program
     // EG: matricess to properly scale the sun or the universe

@@ -1,5 +1,6 @@
 #include "data_types.hpp"
 #include "game_main.hpp"
+#include "log.h"
 #include "project_setup.hpp"
 #include "vulkan/vulkan_core.h"
 #include <cstddef>
@@ -20,6 +21,11 @@ void GameMain::localInit() {
     });
 
     DSLSPaceShip.init(this, {
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
+        {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
+    });
+
+    DSLAsteroids.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
         {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT},
         {2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
@@ -62,6 +68,19 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
 
+    VAsteroids.init(this, {
+        {0, sizeof(VertexNormTanUV), VK_VERTEX_INPUT_RATE_VERTEX}
+    }, {
+	    {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexNormTanUV, pos),
+	        sizeof(glm::vec3), POSITION},
+	    {0, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexNormTanUV, norm),
+	        sizeof(glm::vec3), NORMAL},
+	    {0, 2, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexNormTanUV, UV),
+	        sizeof(glm::vec2), UV},
+        {0, 3, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(VertexNormTanUV, tan),
+            sizeof(glm::vec4), TANGENT}
+    });
+
     VSun.init(this, {
         {0, sizeof(VertexUV), VK_VERTEX_INPUT_RATE_VERTEX}
     }, {
@@ -100,6 +119,12 @@ void GameMain::localInit() {
         "shaders/MeshFrag.spv",
         {&DSLSun, &DSLSPaceShip});
 
+    PAsteroids.init(this,
+        &VAsteroids,
+        "shaders/AsteroidsVert.spv",
+        "shaders/AsteroidsFrag.spv",
+        {&DSLSun, &DSLAsteroids});
+
     /*PSun.init(this,
         &VSun,
         "shaders/PlainVert.spv",
@@ -123,6 +148,11 @@ void GameMain::localInit() {
         "Assets/Objects/fixed_starship.obj",
         OBJ);
     
+    MAsteroids.init(this, 
+        &VAsteroids,
+        "Assets/Objects/asteroid.gltf", 
+        GLTF);
+    
     MSun.init(this,
         &VSun,
         "Assets/Objects/Sphere.gltf",
@@ -137,13 +167,16 @@ void GameMain::localInit() {
 
     TMesh.init(this,
         "Assets/Textures/starship_textures.png");
-    TMeshNorm.init(this,
-        "Assets/Textures/starship_norm.png");
     //TMeshMap.init(this,
     //    "Assets/Textures/Metals_09_met_rough_ao.png");
 
     TSun.init(this,
         "Assets/Textures/8k_sun.jpg");
+    
+    TAsteroids.init(this, 
+        "Assets/Textures/asteroid.png");
+    TAsteroidsNormMap.init(this, 
+        "Assets/Textures/asteroid_norm.png");
 
     // You can initialize here the matrices used for static transformations
     
@@ -157,6 +190,7 @@ void GameMain::localInit() {
 void GameMain::pipelinesAndDescriptorSetsInit() {
     PPlain.create();
     PMesh.create();
+    PAsteroids.create();
     //PSun.create();
 
     // Initialize the Descriptor Set specifying
@@ -177,9 +211,16 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
 
     DSMesh.init(this, &DSLSPaceShip, {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
-        {1, TEXTURE, 0, &TMesh},
-        {2, TEXTURE, 0, &TMeshNorm}
+        {1, TEXTURE, 0, &TMesh}
     });
+
+    for(int i = 0; i<5; i++) {
+        DSAsteroids[i].init(this, &DSLAsteroids, {
+            {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
+            {1, TEXTURE, 0, &TAsteroids},
+            {2, TEXTURE, 0, &TAsteroidsNormMap}
+        });
+    }
 
     DSSun.init(this, &DSLUniverse, {
         {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
@@ -230,5 +271,16 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
-
+    
+    MAsteroids.bind(commandBuffer);
+    PAsteroids.bind(commandBuffer);
+    for(int i=0; i<5; i++) {
+        DSAsteroids[i].bind(commandBuffer, PAsteroids, 1, currentImage);
+        vkCmdDrawIndexed(commandBuffer,
+            static_cast<uint32_t>(MAsteroids.indices.size()),
+            1,
+            0,
+            0 ,
+            0);
+    }
 }

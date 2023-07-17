@@ -4,6 +4,7 @@
 #include "glm/matrix.hpp"
 #include "glm/trigonometric.hpp"
 #include "log.h"
+#include <cmath>
 #include <iostream>
 
 void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
@@ -36,6 +37,19 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     // NEEDS SunLight to be set
     uboMesh.mMat = game.World;
     uboMesh.mvpMat = game.fixed_ViewPrj * uboMesh.mMat;
-    uboMesh.nMat = glm::inverse(glm::transpose(game.World));
+    uboMesh.nMat = glm::inverse(glm::transpose(uboMesh.mMat));
     DSMesh.map(currentImage, &uboMesh, sizeof(uboMesh), 0);
+
+    for(int i = 0; i<5; i++) {
+        // Set mesh properties and map it
+        // NEEDS SunLight to be set
+        uboAsteroids.mMat = glm::translate(I, game.asteroids[i].position)
+            * glm::rotate(
+                I,
+                glm::radians(20.0f) * game.time,
+                glm::normalize(game.asteroids[i].position + glm::vec3(0,1,0)));
+        uboAsteroids.mvpMat = game.ViewPrj * uboAsteroids.mMat;
+        uboAsteroids.nMat = glm::inverse(glm::transpose(uboAsteroids.mMat));
+        DSAsteroids[i].map(currentImage, &uboAsteroids, sizeof(uboAsteroids), 0);
+    }
 }

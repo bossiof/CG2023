@@ -23,6 +23,7 @@ public:
     std::vector<Asteroid> asteroids;
     std::vector<Checkpoint> checkpoints;
     std::vector<PowerUp> PowerUps;
+    bool collision();
     GameModel();
     ~GameModel();
     // Define here all the variables for the game model

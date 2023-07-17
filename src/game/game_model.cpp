@@ -2,11 +2,24 @@
 #include "log.h"
 #include "vulkan/vulkan_core.h"
 
+namespace glm {
+    Asteroid positions[] = {
+        Asteroid(vec3(3,0,0),    1),
+        Asteroid(vec3(0,3,0),    1),
+        Asteroid(vec3(0,0,3),    1),
+        Asteroid(vec3(-3,-3,-3), 1),
+        Asteroid(vec3(3,3,3),    1)
+    };
+}
+
 GameModel::GameModel() {
-    character = new SpaceShip(glm::vec3(0,0,0), 1);
+    character = new SpaceShip(glm::vec3(0,0,0), 0.1);
     camera = new GenericObject(glm::vec3(0,0,0));
     // this has to be fixed
-    sun = new GenericObject(glm::vec3(0,-50,0));
+    sun = new GenericObject(glm::vec3(0,50,0));
+    for (Asteroid el : glm::positions) {
+        asteroids.push_back(el);
+    }
     logDebug("Created GameModel");
 }
 
