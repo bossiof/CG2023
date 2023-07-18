@@ -77,6 +77,7 @@ void GameMain::gameLogic(GameModel& game) {
 		}
 	} else {
 		MOVE_SPEED = 2;
+		Extra=0;
 		FOVy = glm::radians(45.0f);
 		float MAX_SPEED=20; 
 	}
@@ -116,7 +117,6 @@ void GameMain::gameLogic(GameModel& game) {
 	else Momentum-=Momentum*(deltaT); //decrease speed gradually
 	Momentum=glm::max(-CAP_SPEED/3.0f,glm::min(Momentum,CAP_SPEED+Extra)); //caps the speed, I wanna be slower in reverse cuz game mechanics
 
-	glm::vec3 tmp_position = game.character->position;
 
 	//we calculatSe initial position 
 	//we do not use the left/right up/down translation on the starship
@@ -125,12 +125,13 @@ void GameMain::gameLogic(GameModel& game) {
 	//we calculate initial position 
 	//we do not use the left and right translation on the starship
 	
-	if(game.collision())
-		game.character->position = tmp_position;
+	float dist = glm::length(game.character->position); //how far are you from the center of the universe
+	
+	if(game.collision()||(dist > 40)){ //Did you hit anything or are you going out of bounds
+		game.character->position -= 2*Momentum * uz * deltaT; //reset position
+		Momentum*=(-3); //invert movement (*3 for a satisfying bounce)
+	}
 
-	float dist = glm::length(game.character->position);
-
-	if(dist > 40) { game.character->position *= 40.0f / dist; } // Prevent from going outside the map
 
 	glm::vec3 targetPosition = game.character->position;
 	//the camera position is based on the target position with two rotations and a translation at a certain distance
