@@ -6,7 +6,7 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
     PPlain.cleanup();
     PMesh.cleanup();
     PAsteroids.cleanup();
-    //PSun.cleanup();
+    PSun.cleanup();
 
     // Cleanup Descriptor Sets
     DSUniverse.cleanup();
@@ -45,5 +45,5 @@ void GameMain::localCleanup() {
     PPlain.destroy();
     PMesh.destroy();
     PAsteroids.destroy();
-    //PSun.destroy();
+    PSun.destroy();
 }

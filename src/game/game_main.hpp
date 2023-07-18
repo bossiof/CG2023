@@ -36,9 +36,8 @@ protected:
         PPlain,
         PMesh,
         PTorus,
-        PAsteroids;
-        //PSun;
-
+        PAsteroids,
+        PSun;
     // Objects to keep model data, be sure to use the proper
     // Vertex descriptor (the one which match the model
     //   data structure)

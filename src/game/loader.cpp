@@ -140,12 +140,12 @@ void GameMain::localInit() {
         "shaders/PlainFrag.spv",
     {&DSLUniverse});
 
-    /*PSun.init(this,
+    PSun.init(this,
         &VSun,
         "shaders/PlainVert.spv",
-        "shaders/PlainFrag.spv",
+        "shaders/SunFrag.spv",
         {&DSLUniverse});//to be edited to accomodate the descriptor set layout for the sun
-    */
+    
 
     // Load the objects data specifying
     //      1. The vertext type to load
@@ -213,10 +213,9 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     PPlain.create();
     PMesh.create();
     PAsteroids.create();
-
     //--------------------------------------------------------------------------------------------
     PTorus.create();
-    //PSun.create();
+    PSun.create();
 
     // Initialize the Descriptor Set specifying
     //      1. A reference to its layout
@@ -283,9 +282,9 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
-    //PSun.bind(commandBuffer);
+    PSun.bind(commandBuffer);
     MSun.bind(commandBuffer);
-    DSSun.bind(commandBuffer, PPlain, 0, currentImage);
+    DSSun.bind(commandBuffer, PSun, 0, currentImage);
     vkCmdDrawIndexed(commandBuffer,
         static_cast<uint32_t>(MSun.indices.size()),
         1,
