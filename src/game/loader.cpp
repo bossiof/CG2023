@@ -175,7 +175,7 @@ void GameMain::localInit() {
     //---------------------------------------------------------------------------------------
     MTorus.init(this,
         &VTorus,
-        "/home/francesco/Documents/GitHub/CG2023/Assets/Objects/fat_torus.obj",
+        "Assets/Objects/fat_torus.obj",
         OBJ);
     // Load the texture specifying
     //      1. The file name
