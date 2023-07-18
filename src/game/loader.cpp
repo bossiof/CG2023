@@ -35,6 +35,15 @@ void GameMain::localInit() {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
 
+    DSLPToonLight.init(this, {
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT},
+        {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
+    });
+
+    DSLCrystal.init(this, {
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT}
+    });
+
     // Describe the bindings used to interact with the shader
     // you must specify:
     //      1. Binding number
@@ -48,7 +57,7 @@ void GameMain::localInit() {
     //      4. Offset of the element in the data structure
     //      5. Size in byte of the data structure to map
     //      6. Define element usage (used by vulkan to retrieve data)
-    VUniverse.init(this, {
+    VUV.init(this, {
         {0, sizeof(VertexUV), VK_VERTEX_INPUT_RATE_VERTEX}
     }, {
         {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexUV, pos),
@@ -57,7 +66,16 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
 
-    VSpaceShip.init(this, {
+    VNorm.init(this, {
+        {0, sizeof(VertexNorm), VK_VERTEX_INPUT_RATE_VERTEX}
+    }, {
+        {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexNorm, pos),
+            sizeof(glm::vec3), POSITION},
+        {0, 1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexNorm, norm),
+            sizeof(glm::vec3), NORMAL}
+    });
+
+    VNormUV.init(this, {
         {0, sizeof(VertexNormUV), VK_VERTEX_INPUT_RATE_VERTEX}
     }, {
         {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexNormUV, pos),
@@ -68,7 +86,7 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
 
-    VAsteroids.init(this, {
+    VNormTanUV.init(this, {
         {0, sizeof(VertexNormTanUV), VK_VERTEX_INPUT_RATE_VERTEX}
     }, {
 	    {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexNormTanUV, pos),
@@ -111,7 +129,7 @@ void GameMain::localInit() {
     // Be sure to cleanup and to destroy this at
     // src/game/cleanup.cpp
     PPlain.init(this,
-        &VUniverse,
+        &VUV,
         "shaders/PlainVert.spv",
         "shaders/PlainFrag.spv",
         {&DSLUniverse});
@@ -123,13 +141,13 @@ void GameMain::localInit() {
             false);
 
     PMesh.init(this,
-        &VSpaceShip,
+        &VNormUV,
         "shaders/MeshVert.spv",
         "shaders/MeshFrag.spv",
         {&DSLSun, &DSLSPaceShip});
 
     PAsteroids.init(this,
-        &VAsteroids,
+        &VNormTanUV,
         "shaders/AsteroidsVert.spv",
         "shaders/AsteroidsFrag.spv",
         {&DSLSun, &DSLAsteroids});
@@ -138,7 +156,19 @@ void GameMain::localInit() {
         &VTorus,
         "shaders/PlainVert.spv",
         "shaders/PlainFrag.spv",
-    {&DSLUniverse});
+        {&DSLUniverse});
+    
+    PCrystal.init(this,
+        &VNorm,
+        "shaders/CrystalVert.spv",
+        "shaders/CrystalFrag.spv",
+        {&DSLPToonLight, &DSLCrystal});
+
+    /*PSun.init(this,
+        &VSun,
+        "shaders/PlainVert.spv",
+        "shaders/PlainFrag.spv",
+    {&DSLUniverse});*/
 
     PSun.init(this,
         &VSun,
@@ -154,17 +184,17 @@ void GameMain::localInit() {
     // Be sure to cleanup this at
     // src/game/cleanup.cpp
     MUniverse.init(this,
-        &VUniverse,
+        &VUV,
         "Assets/Objects/Sphere.gltf",
         GLTF);
 
     MMesh.init(this,
-        &VSpaceShip,
+        &VNormUV,
         "Assets/Objects/fixed_starship.obj",
         OBJ);
     
     MAsteroids.init(this, 
-        &VAsteroids,
+        &VNormTanUV,
         "Assets/Objects/asteroid.gltf", 
         GLTF);
     
@@ -177,6 +207,12 @@ void GameMain::localInit() {
         &VTorus,
         "Assets/Objects/fat_torus.obj",
         OBJ);
+    
+    MCrystal.init(this,
+        &VNorm,
+        "Assets/Objects/crystal.obj",
+        OBJ);
+    
     // Load the texture specifying
     //      1. The file name
     // Be sure to cleanup this at
@@ -199,6 +235,10 @@ void GameMain::localInit() {
     //--------------------------------------------------------------------------------------------
     TTorus.init(this,
         "Assets/Textures/HDRI-space2.jpeg");
+    
+    TToon.init(this,
+        "Assets/Textures/toon_light.jpg");
+
     // You can initialize here the matrices used for static transformations
     
     // Global World Matrix for universe
@@ -206,7 +246,6 @@ void GameMain::localInit() {
     // Global World Matrix for the sun
     USun = glm::scale(I, glm::vec3(10));
     Uast = glm::scale(I, glm::vec3(1.25));
-
 }
 
 void GameMain::pipelinesAndDescriptorSetsInit() {
@@ -216,6 +255,8 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     //--------------------------------------------------------------------------------------------
     PTorus.create();
     PSun.create();
+    PCrystal.create();
+    //PSun.create();
 
     // Initialize the Descriptor Set specifying
     //      1. A reference to its layout
@@ -238,11 +279,28 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {1, TEXTURE, 0, &TMesh}
     });
 
+    DSSun.init(this, &DSLUniverse, {
+        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
+        {1, TEXTURE, 0, &TSun}
+    });
+
+    DSPToonLight.init(this, &DSLPToonLight, {
+        {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr},
+        {1, TEXTURE, 0, &TToon}
+    });
+
+    DSSunLight.init(this, &DSLSun, {
+        {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
+    });
+
     for(int i = 0; i<5; i++) {
         DSAsteroids[i].init(this, &DSLAsteroids, {
             {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
             {1, TEXTURE, 0, &TAsteroids},
             {2, TEXTURE, 0, &TAsteroidsNormMap}
+        });
+        DSCrystal[i].init(this, &DSLCrystal, {
+            {0, UNIFORM, sizeof(MeshUniformBlock), nullptr}
         });
     }
 
@@ -325,4 +383,18 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
+    
+    DSPToonLight.bind(commandBuffer, PCrystal, 0, currentImage);
+
+    MCrystal.bind(commandBuffer);
+    PCrystal.bind(commandBuffer);
+    for(int i=0; i<5; i++) {
+        DSCrystal[i].bind(commandBuffer, PCrystal, 1, currentImage);
+        vkCmdDrawIndexed(commandBuffer,     
+            static_cast<uint32_t>(MCrystal.indices.size()), 
+            1, 
+            0, 
+            0,
+            0);
+    }
 }
