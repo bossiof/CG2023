@@ -90,6 +90,15 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
 
+    //-------------------------------------------------------------------------------------------------
+        VTorus.init(this, {
+        {0, sizeof(VertexTorus), VK_VERTEX_INPUT_RATE_VERTEX}
+    }, {
+        {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexTorus, pos),
+            sizeof(glm::vec3), POSITION},
+        {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexTorus, UV),
+            sizeof(glm::vec2), UV}
+    });
     // Initialize a new pipeline using the specified:
     //      1. Vertex types
     //      2. Vertex shader
@@ -124,6 +133,12 @@ void GameMain::localInit() {
         "shaders/AsteroidsVert.spv",
         "shaders/AsteroidsFrag.spv",
         {&DSLSun, &DSLAsteroids});
+    //------------------------------------------------------------------------------------------------------
+    PTorus.init(this,
+        &VTorus,
+        "shaders/PlainVert.spv",
+        "shaders/PlainFrag.spv",
+    {&DSLUniverse});
 
     /*PSun.init(this,
         &VSun,
@@ -157,7 +172,11 @@ void GameMain::localInit() {
         &VSun,
         "Assets/Objects/Sphere.gltf",
         GLTF);
-    
+    //---------------------------------------------------------------------------------------
+    MTorus.init(this,
+        &VTorus,
+        "/home/francesco/Documents/GitHub/CG2023/Assets/Objects/fat_torus.obj",
+        OBJ);
     // Load the texture specifying
     //      1. The file name
     // Be sure to cleanup this at
@@ -177,7 +196,9 @@ void GameMain::localInit() {
         "Assets/Textures/asteroid.png");
     TAsteroidsNormMap.init(this, 
         "Assets/Textures/asteroid_norm.png");
-
+    //--------------------------------------------------------------------------------------------
+    TTorus.init(this,
+        "Assets/Textures/HDRI-space2.jpeg");
     // You can initialize here the matrices used for static transformations
     
     // Global World Matrix for universe
@@ -192,6 +213,9 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     PPlain.create();
     PMesh.create();
     PAsteroids.create();
+
+    //--------------------------------------------------------------------------------------------
+    PTorus.create();
     //PSun.create();
 
     // Initialize the Descriptor Set specifying
@@ -231,6 +255,13 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     DSSunLight.init(this, &DSLSun, {
         {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
     });
+
+    //--------------------------------------------------------------------
+    DSTorus.init(this, &DSLUniverse, {
+        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
+        {1, TEXTURE, 0, &TUniverse}
+    });
+
 }
 
 void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentImage) {
@@ -284,4 +315,15 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
             0 ,
             0);
     }
+
+    //-------------------------------------------------------------------------------------------------
+    PTorus.bind(commandBuffer);
+    MTorus.bind(commandBuffer);
+    DSTorus.bind(commandBuffer, PTorus, 0, currentImage);
+    vkCmdDrawIndexed(commandBuffer,
+        static_cast<uint32_t>(MTorus.indices.size()),
+        1,
+        0,
+        0 ,
+        0);
 }

@@ -20,6 +20,7 @@ protected:
         DSLSun,
         DSLUniverse,
         DSLSPaceShip,
+        DSLTorus,
         DSLAsteroids;
 
     // Define a new of type Vertex Descriptor
@@ -27,12 +28,14 @@ protected:
         VUniverse,
         VSpaceShip,
         VAsteroids,
+        VTorus,
         VSun;
 
     // Create a new custom pipeline
     Pipeline
         PPlain,
         PMesh,
+        PTorus,
         PAsteroids;
         //PSun;
 
@@ -48,8 +51,8 @@ protected:
         MMesh;
     
     Model<VertexNormTanUV>
+        MTorus,
         MAsteroids;
-
     // Objects to keep texture data
     // When creating a new one, be sure to update
     // src/game/game_main.cpp:6
@@ -58,6 +61,7 @@ protected:
         TMesh,
         TSun,
         TAsteroids,
+        TTorus,
         TAsteroidsNormMap;
     
     // Create a new descriptor set for your pipeline
@@ -68,6 +72,7 @@ protected:
         DSSun,
         DSUniverse,
         DSMesh,
+        DSTorus,
         DSAsteroids[5];
 
     // Uniform Blocks Objects are data passed to the GPU
@@ -87,6 +92,7 @@ protected:
     
     // UBO for meshes (elements which interact with light)
     MeshUniformBlock
+        uboTorus,
         uboMesh;
 
     // Define matrices statically used by the program

@@ -54,4 +54,16 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
         uboMesh.nMat = glm::inverse(glm::transpose(uboMesh.mMat));
         DSAsteroids[i].map(currentImage, &uboMesh, sizeof(uboMesh), 0);
     }
+
+    //-----------------------------------------------------------------------------------------
+    uboTorus.mMat = glm::translate(I,glm::vec3(5,2,2))
+        * glm::scale(I,glm::vec3(1.5,1.5,1.5))
+        * glm::rotate(
+            I,
+            glm::radians(1.0f),
+            glm::vec3(1,0,0));
+    uboTorus.mvpMat = game.ViewPrj * uboTorus.mMat;
+    uboTorus.nMat = glm::inverse(glm::transpose(uboTorus.mMat));
+    DSTorus.map(currentImage, &uboTorus, sizeof(uboTorus), 0);
+
 }
