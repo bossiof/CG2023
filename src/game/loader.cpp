@@ -159,8 +159,8 @@ void GameMain::localInit() {
     //------------------------------------------------------------------------------------------------------
     PTorus.init(this,
         &VTorus,
-        "shaders/PlainVert.spv",
-        "shaders/PlainFrag.spv",
+        "shaders/TorusVert.spv",
+        "shaders/TorusFrag.spv",
         {&DSLTorus});
     
     PCrystal.init(this,
@@ -239,7 +239,7 @@ void GameMain::localInit() {
         "Assets/Textures/asteroid_norm.png");
     //--------------------------------------------------------------------------------------------
     TTorus.init(this,
-        "Assets/Textures/HDRI-space2.jpeg");
+        "Assets/Textures/TorusTexture.jpg");
     
     TToon.init(this,
         "Assets/Textures/toon_light.jpg");
@@ -321,7 +321,7 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     //--------------------------------------------------------------------
     DSTorus.init(this, &DSLTorus, {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
-        {1, TEXTURE, 0, &TUniverse}
+        {1, TEXTURE, 0, &TTorus}
     });
 
 }

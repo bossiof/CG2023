@@ -64,11 +64,11 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     }
 
     //-----------------------------------------------------------------------------------------
-    uboTorus.mMat = glm::translate(I,glm::vec3(5,2,2))
+    uboTorus.mMat = glm::translate(I,glm::vec3(0,0,-10))
         * glm::scale(I,glm::vec3(1.5,1.5,1.5))
         * glm::rotate(
             I,
-            glm::radians(1.0f),
+            glm::radians(90.0f),
             glm::vec3(1,0,0));
     uboTorus.mvpMat = game.ViewPrj * uboTorus.mMat;
     uboTorus.nMat = glm::inverse(glm::transpose(uboTorus.mMat));
