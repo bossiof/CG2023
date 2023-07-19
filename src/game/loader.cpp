@@ -34,6 +34,11 @@ void GameMain::localInit() {
     DSLSun.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
+    //---------------------------------------------------------------------------------
+    DSLTorus.init(this, {
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
+        {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
+    });
 
     // Describe the bindings used to interact with the shader
     // you must specify:
@@ -92,8 +97,8 @@ void GameMain::localInit() {
 
     //-------------------------------------------------------------------------------------------------
         VTorus.init(this, {
-        {0, sizeof(VertexTorus), VK_VERTEX_INPUT_RATE_VERTEX}
-    }, {
+       {0, sizeof(VertexTorus), VK_VERTEX_INPUT_RATE_VERTEX}
+         }, {
         {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexTorus, pos),
             sizeof(glm::vec3), POSITION},
         {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexTorus, UV),
@@ -138,7 +143,7 @@ void GameMain::localInit() {
         &VTorus,
         "shaders/PlainVert.spv",
         "shaders/PlainFrag.spv",
-    {&DSLUniverse});
+    {&DSLTorus});
 
     /*PSun.init(this,
         &VSun,
@@ -175,7 +180,7 @@ void GameMain::localInit() {
     //---------------------------------------------------------------------------------------
     MTorus.init(this,
         &VTorus,
-        "/home/francesco/Documents/GitHub/CG2023/Assets/Objects/fat_torus.obj",
+        "Assets/Objects/fat_torus.obj",
         OBJ);
     // Load the texture specifying
     //      1. The file name
@@ -257,8 +262,8 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     });
 
     //--------------------------------------------------------------------
-    DSTorus.init(this, &DSLUniverse, {
-        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
+    DSTorus.init(this, &DSLTorus, {
+        {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
         {1, TEXTURE, 0, &TUniverse}
     });
 

@@ -46,12 +46,12 @@ protected:
     // src/lib/data_types.hpp
     Model<VertexUV>
         MUniverse,
+        MTorus,
         MSun; 
     Model<VertexNormUV>
         MMesh;
     
     Model<VertexNormTanUV>
-        MTorus,
         MAsteroids;
     // Objects to keep texture data
     // When creating a new one, be sure to update
