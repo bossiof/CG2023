@@ -12,7 +12,6 @@ struct MeshUniformBlock {
 struct GlobalUniformBlockPointLight {
 	alignas(16) glm::vec3 lightPos;
 	alignas(16) glm::vec4 lightColor;
-	alignas(16) glm::vec3 AmbLightColor;
 	alignas(16) glm::vec3 eyePos;
 };
 
@@ -46,6 +45,11 @@ struct VertexNormTanUV {
 	glm::vec3 norm;
 	glm::vec2 UV;
 	glm::vec4 tan;
+};
+
+struct VertexNorm {
+	glm::vec3 pos;
+	glm::vec3 norm;
 };
 
 #endif//VERTEX_TYPES_HPP

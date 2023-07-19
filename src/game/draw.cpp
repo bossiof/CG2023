@@ -1,6 +1,8 @@
 #include "game_main.hpp"
 #include "game_model.hpp"
+#include "glm/detail/qualifier.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "glm/fwd.hpp"
 #include "glm/matrix.hpp"
 #include "glm/trigonometric.hpp"
 #include "log.h"
@@ -43,13 +45,19 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     for(int i = 0; i<5; i++) {
         // Set mesh properties and map it
         // NEEDS SunLight to be set
-        uboMesh.mMat = glm::translate(I, game.asteroids[i].position)
+        uboMesh.mMat =
+            glm::translate(
+                I, 
+                game.asteroids[i].position)
             * Uast
-            * glm::scale(I, glm::vec3(game.asteroids[i].radius))
+            * glm::scale(I, glm::vec3(game.asteroids[i].radius * 1.2))
             * glm::rotate(
                 I,
-                glm::radians(20.0f) * game.time,
-                glm::normalize(game.asteroids[i].position + glm::vec3(0,1,0)));
+                glm::radians(20.0f)
+                * game.time,
+                glm::normalize(
+                    game.asteroids[i].position
+                    + glm::vec3(0,1,0)));
         uboMesh.mvpMat = game.ViewPrj * uboMesh.mMat;
         uboMesh.nMat = glm::inverse(glm::transpose(uboMesh.mMat));
         DSAsteroids[i].map(currentImage, &uboMesh, sizeof(uboMesh), 0);
@@ -66,4 +74,34 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     uboTorus.nMat = glm::inverse(glm::transpose(uboTorus.mMat));
     DSTorus.map(currentImage, &uboTorus, sizeof(uboTorus), 0);
 
+    for(int i = 0; i<5; i++) {
+        // Set sunlight properties and map it
+        guboPLCrystal.lightPos = game.powerUps[i].position + glm::vec3(
+            glm::cos(
+                glm::radians(40.0f)
+                * game.time),
+            glm::sin(
+                glm::radians(40.0f)
+                * game.time),
+            0);
+        guboPLCrystal.lightColor = glm::vec4(5);
+        guboPLCrystal.eyePos = game.camera->position;
+        DSPToonLight.map(currentImage, &guboPLCrystal, sizeof(guboPLCrystal), 0);
+
+        uboCrystal.mMat =
+            glm::translate(
+                I,
+                game.powerUps[i].position)
+            * glm::scale(
+                I, 
+                glm::vec3(0.5))
+            * glm::rotate(
+                I, 
+                glm::radians(30.0f)
+                    * game.time,
+                glm::vec3(1,0,0));
+        uboCrystal.mvpMat = game.ViewPrj * uboCrystal.mMat;
+        uboCrystal.nMat = glm::inverse(glm::transpose(uboCrystal.mMat));
+        DSCrystal[i].map(currentImage, &uboCrystal, sizeof(uboCrystal), 0);
+    }
 }

@@ -22,7 +22,7 @@ public:
     GenericObject *camera, *sun;
     std::vector<Asteroid> asteroids;
     std::vector<Checkpoint> checkpoints;
-    std::vector<PowerUp> PowerUps;
+    std::vector<PowerUp> powerUps;
     bool collision();
     GameModel();
     ~GameModel();
@@ -65,7 +65,7 @@ public:
 
 class PowerUp: public ColliderObject {
 public:
-    PowerUp(glm::vec3 position, float radius);
+    PowerUp(glm::vec3 position);
     void applyEffect(GameModel& game);
 };
 

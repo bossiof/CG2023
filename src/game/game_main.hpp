@@ -21,14 +21,23 @@ protected:
         DSLUniverse,
         DSLSPaceShip,
         DSLTorus,
-        DSLAsteroids;
+        DSLAsteroids,
+        DSLCrystal,
+        DSLPToonLight;
 
     // Define a new of type Vertex Descriptor
     VertexDescriptor
         VUniverse,
         VSpaceShip,
         VAsteroids,
-        VTorus,
+        VTorus;
+
+    // Define a new of type Vertex Descriptor
+    VertexDescriptor
+        VUV,
+        VNorm,
+        VNormUV,
+        VNormTanUV,
         VSun;
 
     // Create a new custom pipeline
@@ -36,7 +45,9 @@ protected:
         PPlain,
         PMesh,
         PTorus,
-        PAsteroids;
+        PAsteroids,
+        PSun,
+        PCrystal;
         //PSun;
 
     // Objects to keep model data, be sure to use the proper
@@ -50,9 +61,11 @@ protected:
         MSun; 
     Model<VertexNormUV>
         MMesh;
-    
     Model<VertexNormTanUV>
         MAsteroids;
+    Model<VertexNorm>
+        MCrystal;
+
     // Objects to keep texture data
     // When creating a new one, be sure to update
     // src/game/game_main.cpp:6
@@ -62,7 +75,8 @@ protected:
         TSun,
         TAsteroids,
         TTorus,
-        TAsteroidsNormMap;
+        TAsteroidsNormMap,
+        TToon;
     
     // Create a new descriptor set for your pipeline
     // Remember to update
@@ -73,7 +87,9 @@ protected:
         DSUniverse,
         DSMesh,
         DSTorus,
-        DSAsteroids[5];
+        DSAsteroids[5],
+        DSCrystal[5],
+        DSPToonLight;
 
     // Uniform Blocks Objects are data passed to the GPU
     // Create a new object to pass data to the GPU
@@ -83,7 +99,8 @@ protected:
 
     // UBO for sun pointlight
     GlobalUniformBlockPointLight
-        guboPLSun;
+        guboPLSun,
+        guboPLCrystal;
     
     // UBO for elements whiich only need a model and a texture
     PlainUniformBlock
@@ -93,7 +110,8 @@ protected:
     // UBO for meshes (elements which interact with light)
     MeshUniformBlock
         uboTorus,
-        uboMesh;
+        uboMesh,
+        uboCrystal;
 
     // Define matrices statically used by the program
     // EG: matricess to properly scale the sun or the universe

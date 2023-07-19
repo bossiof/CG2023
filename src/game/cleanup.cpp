@@ -5,9 +5,11 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
     // Cleanup pipelines
     PPlain.cleanup();
     PMesh.cleanup();
+    PCrystal.cleanup();
     PAsteroids.cleanup();
     PTorus.cleanup();
     //PSun.cleanup();
+    PSun.cleanup();
 
     // Cleanup Descriptor Sets
     DSUniverse.cleanup();
@@ -17,8 +19,10 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
     //----------------------------------------------------------
     DSTorus.cleanup();
 
+    DSPToonLight.cleanup();
     for(int i=0; i<5; i++) {
         DSAsteroids[i].cleanup();
+        DSCrystal[i].cleanup();
     }
 
 }
@@ -35,6 +39,8 @@ void GameMain::localCleanup() {
     TAsteroids.cleanup();
     TAsteroidsNormMap.cleanup();
     //---------------------------------------------------------------------
+    TTorus.cleanup();
+    TToon.cleanup();
 
     // Cleanup Models
     //--------------------------------------------------------------------
@@ -43,6 +49,8 @@ void GameMain::localCleanup() {
     MMesh.cleanup();
     MSun.cleanup();
     MAsteroids.cleanup();
+    MCrystal.cleanup();
+
     // Cleanup DescriptorSetLayout
     //----------------------------------------------------------------------
     DSLTorus.cleanup();
@@ -50,12 +58,16 @@ void GameMain::localCleanup() {
     DSLSPaceShip.cleanup();
     DSLSun.cleanup();
     DSLAsteroids.cleanup();
+    DSLPToonLight.cleanup();
+    DSLCrystal.cleanup();
+
     // Destroy pipelines
     //-----------------------------------------------------------------------
     PTorus.destroy();
     PPlain.destroy();
     PMesh.destroy();
     PAsteroids.destroy();
-
+    PSun.destroy();
+    PCrystal.destroy();
     //PSun.destroy();
 }
