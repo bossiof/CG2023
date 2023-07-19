@@ -45,6 +45,8 @@ void GameMain::gameLogic(GameModel& game) {
 	// Rotation and motion speed
 	const float ROT_SPEED = glm::radians(120.0f);
 
+	const float BOOST_TIME = 4.0f;
+
 	// Integration with the timers and the controllers
 	// returns:
 	// <float deltaT> the time passed since the last frame
@@ -53,7 +55,11 @@ void GameMain::gameLogic(GameModel& game) {
 	// <bool fire> if the user has pressed a fire button (not required in this assginment)
 	float deltaT;
 	glm::vec3 m = glm::vec3(0.0f), r = glm::vec3(0.0f);
-	bool fire = false;
+	static bool
+		is_on_crystal = false,
+		was_on_crystal = false,
+		fire;
+	static float boost_time = 0.0f;
 	this->getSixAxis(deltaT, m, r, fire);
 	
 	game.time += deltaT;
@@ -67,7 +73,15 @@ void GameMain::gameLogic(GameModel& game) {
 	static float
 		FOVy = glm::radians(45.0f);
 
-	if(fire) {
+	// check if collision happened with a crystal
+	was_on_crystal = is_on_crystal;
+	is_on_crystal = game.on_crystal();
+
+	if(is_on_crystal && (! was_on_crystal)) {
+		boost_time += 4;
+	}
+
+	if(boost_time > 0.0f) {
 		MOVE_SPEED = 8;
 		Extra=25; //I want to go really fast foward
 		if(m.z > 0) {
@@ -75,11 +89,13 @@ void GameMain::gameLogic(GameModel& game) {
 			r.x *= 0.5; // You are going into the hyperspace, drift with care
 			r.y *= 0.5;
 		}
+		boost_time -= deltaT;
 	} else {
 		MOVE_SPEED = 2;
 		Extra=0;
 		FOVy = glm::radians(45.0f);
 		float MAX_SPEED=20; 
+		boost_time = 0.0f;
 	}
 
 	// Game Logic implementation

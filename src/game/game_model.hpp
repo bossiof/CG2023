@@ -24,6 +24,7 @@ public:
     std::vector<Checkpoint> checkpoints;
     std::vector<PowerUp> powerUps;
     bool collision();
+    bool on_crystal();
     GameModel();
     ~GameModel();
     // Define here all the variables for the game model
