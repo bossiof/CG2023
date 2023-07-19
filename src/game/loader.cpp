@@ -309,14 +309,14 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         });
     }
 
-    DSSun.init(this, &DSLUniverse, {
+    /*DSSun.init(this, &DSLUniverse, {
         {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
         {1, TEXTURE, 0, &TSun}
     });
 
     DSSunLight.init(this, &DSLSun, {
         {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
-    });
+    });*/
 
     //--------------------------------------------------------------------
     DSTorus.init(this, &DSLTorus, {

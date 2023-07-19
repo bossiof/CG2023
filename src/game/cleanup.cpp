@@ -24,7 +24,7 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
         DSAsteroids[i].cleanup();
         DSCrystal[i].cleanup();
     }
-
+    
 }
 
 void GameMain::localCleanup() {
@@ -38,10 +38,8 @@ void GameMain::localCleanup() {
     TSun.cleanup();
     TAsteroids.cleanup();
     TAsteroidsNormMap.cleanup();
-    //---------------------------------------------------------------------
-    TTorus.cleanup();
     TToon.cleanup();
-
+    
     // Cleanup Models
     //--------------------------------------------------------------------
     MTorus.cleanup();
