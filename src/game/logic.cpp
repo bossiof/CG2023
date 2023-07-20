@@ -85,19 +85,17 @@ void GameMain::gameLogic(GameModel& game) {
 	MOVE_SPEED = 2;
 	Extra=0;
 	FOVy = glm::radians(45.0f);
-	if(boost_time > 0.0f) {
-		if(fire) {
+	if(boost_time <= 0.0f) {
+		boost_time = 0.0f;
+	} else {
+		if(fire && m.z > 0) {
 			MOVE_SPEED = 8;
 			Extra=25; //I want to go really fast foward
-			if(m.z > 0) {
 				FOVy = glm::radians(100.0f);
 				r.x *= 0.5; // You are going into the hyperspace, drift with care
 				r.y *= 0.5;
-			}
-			boost_time -= deltaT;
+				boost_time -= deltaT;
 		}
-	} else {
-		boost_time = 0.0f;
 	}
 
 	// Game Logic implementation
