@@ -51,8 +51,7 @@ const vec3 C22  = vec3( .02f, .00f,-.05f)/8.0f;
 void main() {
 
 	vec3 Norm = normalize(fragNorm);
-	vec3 Tan = normalize(fragTan.xyz - Norm * dot(fragTan.xyz, Norm));
-	vec3 N = normalize(fragTan);
+	vec3 N = normalize(fragNorm);
 
 	vec3 lightPos = gubo.lightPos;
 	vec3 lightDir = normalize(lightPos - fragPos);

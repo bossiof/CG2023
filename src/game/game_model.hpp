@@ -15,6 +15,7 @@ class Checkpoint;
 class PowerUp;
 
 class GameModel {
+    int current_checkpoint;
 public:
     float time;
     glm::mat4 fixed_ViewPrj,ViewPrj, World;
@@ -25,6 +26,9 @@ public:
     std::vector<PowerUp> powerUps;
     bool collision();
     bool on_crystal();
+    bool race_check();
+    bool race_make_next();
+    inline int curr_check() { return current_checkpoint; }
     GameModel();
     ~GameModel();
     // Define here all the variables for the game model
@@ -60,7 +64,9 @@ public:
 
 class Checkpoint: public ColliderObject {
 public:
-    Checkpoint(glm::vec3 position, float radius);
+    glm::vec3 rotation_vec;
+    float rotation_angle;
+    Checkpoint(glm::vec3 position, glm::vec3 rotation_vec, float rotation_angle);
     void applyEffect(GameModel& game);
 };
 

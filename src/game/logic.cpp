@@ -1,6 +1,7 @@
 #include "game_main.hpp"
 #include "glm/ext/quaternion_geometric.hpp"
 #include "glm/fwd.hpp"
+#include "log.h"
 #include "project_setup.hpp"
 #include <iostream>
 
@@ -79,6 +80,7 @@ void GameMain::gameLogic(GameModel& game) {
 
 	if(is_on_crystal && (! was_on_crystal)) {
 		boost_time += 4;
+		logDebug("Power up");
 	}
 
 
@@ -156,6 +158,28 @@ void GameMain::gameLogic(GameModel& game) {
 	DAMP(glm::vec3, cameraPosition, ROTATION_EFFECT_DAMPING);
 
 	game.camera->position = cameraPosition;
+
+	// check for game ended
+	static bool
+		is_checkpoint = false,
+		was_checkpoint = false;
+	static float checkpoint_delay = 0.0f;
+	was_checkpoint = is_checkpoint;
+	is_checkpoint = game.race_check();
+
+	// Check if game ended
+	if(is_checkpoint && !was_checkpoint) {
+		checkpoint_delay = 2.0f;
+	}
+
+	if(checkpoint_delay > 0.0f) {
+		if((checkpoint_delay -= deltaT) <= 0.0f) {
+			checkpoint_delay = 0.0f;
+			if(game.race_make_next()) {
+				logDebug("Implement end game");
+			}
+		}
+	}
 
 	//projection matrix
 	glm::mat4 Mprj = glm::perspective(FOVy, Ar, nearPlane, farPlane);

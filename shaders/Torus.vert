@@ -4,6 +4,7 @@
 layout(set = 1, binding = 0) uniform UniverseUniformBufferObject {
 	mat4 mvpMat;
 	mat4 mMat;
+	mat4 nMat;
 } ubo;
 
 layout(location = 0) in vec3 Pos;
@@ -13,8 +14,8 @@ layout(location = 3) in vec3 Tan;
 
 layout(location = 0) out vec3 fragPos;
 layout(location = 1) out vec2 fragUV;
-layout(location = 3) out vec3 fragNorm;
-layout(location = 4) out vec3 fragTan;
+layout(location = 2) out vec3 fragNorm;
+layout(location = 3) out vec3 fragTan;
 
 void main() {
 	// Apply ViewProjectionMatrix
@@ -24,7 +25,7 @@ void main() {
 	// Just forward UV mapping
 	fragUV = UV;
 	//Just pass out the Norm mapping
-	fragNorm=Norm; 
+    fragNorm = mat3(ubo.nMat[0].xyz, ubo.nMat[1].xyz, ubo.nMat[2].xyz) * Norm;
 	//Just pass out the Tan
 	fragTan=Tan;
 }

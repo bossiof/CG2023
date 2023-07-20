@@ -63,15 +63,17 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
         DSAsteroids[i].map(currentImage, &uboMesh, sizeof(uboMesh), 0);
     }
 
-    //-----------------------------------------------------------------------------------------
-    uboTorus.mMat = glm::translate(I,glm::vec3(0,-30,0))
-        * glm::scale(I,glm::vec3(1.5,1.5,1.5))
+    uboTorus.mMat =
+        glm::translate(
+            I,
+            game.checkpoints[game.curr_check()].position)
         * glm::rotate(
             I,
-            glm::radians(90.0f),
-            glm::vec3(1,0,0));
+            game.checkpoints[game.curr_check()].rotation_angle,
+            game.checkpoints[game.curr_check()].rotation_vec);
     uboTorus.mvpMat = game.ViewPrj * uboTorus.mMat;
     uboTorus.nMat = glm::inverse(glm::transpose(uboTorus.mMat));
+
     DSTorus.map(currentImage, &uboTorus, sizeof(uboTorus), 0);
 
     for(int i = 0; i<5; i++) {
@@ -98,7 +100,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
             * glm::rotate(
                 I, 
                 glm::radians(30.0f)
-                    * game.time,
+                * game.time,
                 glm::vec3(1,0,0));
         uboCrystal.mvpMat = game.ViewPrj * uboCrystal.mMat;
         uboCrystal.nMat = glm::inverse(glm::transpose(uboCrystal.mMat));

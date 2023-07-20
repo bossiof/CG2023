@@ -20,3 +20,16 @@ bool GameModel::on_crystal() {
     }
     return false;
 }
+
+bool GameModel::race_check() {
+    return character->collision(checkpoints[current_checkpoint]);
+}
+
+bool GameModel::race_make_next() {
+    current_checkpoint = (current_checkpoint + 1) % this->checkpoints.size();
+    if(current_checkpoint == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
