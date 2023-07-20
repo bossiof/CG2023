@@ -57,7 +57,6 @@ protected:
     // src/lib/data_types.hpp
     Model<VertexUV>
         MUniverse,
-        MTorus,
         MSun; 
     Model<VertexNormUV>
         MMesh;
@@ -65,6 +64,8 @@ protected:
         MAsteroids;
     Model<VertexNorm>
         MCrystal;
+    Model<VertexTorus>
+        MTorus;
 
     // Objects to keep texture data
     // When creating a new one, be sure to update

@@ -34,7 +34,7 @@ void GameMain::localInit() {
     DSLSun.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
-    //---------------------------------------------------------------------------------
+
     DSLTorus.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
         {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
@@ -113,14 +113,17 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
 
-    //-------------------------------------------------------------------------------------------------
-        VTorus.init(this, {
+    VTorus.init(this, {
        {0, sizeof(VertexTorus), VK_VERTEX_INPUT_RATE_VERTEX}
          }, {
         {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexTorus, pos),
             sizeof(glm::vec3), POSITION},
         {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexTorus, UV),
-            sizeof(glm::vec2), UV}
+            sizeof(glm::vec2), UV},
+        {0, 2, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexTorus, norm),
+            sizeof(glm::vec3), NORMAL},
+        {0, 3, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexTorus, tan),
+            sizeof(glm::vec3), TANGENT}
     });
     // Initialize a new pipeline using the specified:
     //      1. Vertex types
@@ -156,12 +159,11 @@ void GameMain::localInit() {
         "shaders/AsteroidsVert.spv",
         "shaders/AsteroidsFrag.spv",
         {&DSLSun, &DSLAsteroids});
-    //------------------------------------------------------------------------------------------------------
     PTorus.init(this,
         &VTorus,
         "shaders/TorusVert.spv",
         "shaders/TorusFrag.spv",
-        {&DSLTorus});
+        {&DSLSun,&DSLTorus});
     
     PCrystal.init(this,
         &VNorm,
@@ -207,7 +209,6 @@ void GameMain::localInit() {
         &VSun,
         "Assets/Objects/Sphere.gltf",
         GLTF);
-    //---------------------------------------------------------------------------------------
     MTorus.init(this,
         &VTorus,
         "Assets/Objects/fat_torus.obj",
@@ -237,7 +238,6 @@ void GameMain::localInit() {
         "Assets/Textures/asteroid.png");
     TAsteroidsNormMap.init(this, 
         "Assets/Textures/asteroid_norm.png");
-    //--------------------------------------------------------------------------------------------
     TTorus.init(this,
         "Assets/Textures/TorusTexture.jpg");
     
@@ -257,7 +257,6 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     PPlain.create();
     PMesh.create();
     PAsteroids.create();
-    //--------------------------------------------------------------------------------------------
     PTorus.create();
     PSun.create();
     PCrystal.create();
@@ -318,7 +317,6 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
     });*/
 
-    //--------------------------------------------------------------------
     DSTorus.init(this, &DSLTorus, {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
         {1, TEXTURE, 0, &TTorus}
@@ -378,10 +376,9 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
             0);
     }
 
-    //-------------------------------------------------------------------------------------------------
     PTorus.bind(commandBuffer);
     MTorus.bind(commandBuffer);
-    DSTorus.bind(commandBuffer, PTorus, 0, currentImage);
+    DSTorus.bind(commandBuffer, PTorus, 1, currentImage);
     vkCmdDrawIndexed(commandBuffer,
         static_cast<uint32_t>(MTorus.indices.size()),
         1,

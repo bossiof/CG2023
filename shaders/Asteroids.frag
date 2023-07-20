@@ -35,9 +35,6 @@ vec3 BRDF(vec3 V, vec3 N, vec3 L, vec3 Md, vec3 Ms, float gamma) {
 	return Lambert_Phong_light;
 }
 
-const float cosout = 0.5;	// cosine of the outer angle of the spotlight
-const float cosin  = 0.95;	// cosine of the inner angle of the spotlight
-
 const float gamma = 160.0f;	// cosine power for the Blinn specular reflection
 
 // coefficients for the spehrical harmonics ambient light term

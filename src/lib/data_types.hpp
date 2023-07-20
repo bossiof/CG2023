@@ -38,6 +38,8 @@ struct VertexNormUV {
 struct VertexTorus {
 	glm::vec3 pos;
 	glm::vec2 UV;
+	glm::vec3 norm;
+	glm::vec3 tan;
 };
 
 struct VertexNormTanUV {

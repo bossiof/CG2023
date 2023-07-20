@@ -64,7 +64,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     }
 
     //-----------------------------------------------------------------------------------------
-    uboTorus.mMat = glm::translate(I,glm::vec3(0,0,-10))
+    uboTorus.mMat = glm::translate(I,glm::vec3(0,-30,0))
         * glm::scale(I,glm::vec3(1.5,1.5,1.5))
         * glm::rotate(
             I,
