@@ -16,7 +16,7 @@ void GameMain::localInit() {
     // Be sure to cleanup each DSL in
     // src/game/cleanup.cpp
     DSLUniverse.init(this, {
-        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL},
         {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
 

@@ -18,6 +18,7 @@ struct GlobalUniformBlockPointLight {
 struct PlainUniformBlock {
 	alignas(16) glm::mat4 mvpMat;
 	alignas(16) glm::mat4 mMat;
+	alignas(4)  float time;
 };
 
 // Define vertext types

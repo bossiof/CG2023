@@ -33,6 +33,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     // Set sun model properteies and map it
     uboSun.mMat = glm::translate(I, game.sun->position)*USun;
     uboSun.mvpMat = game.ViewPrj * uboSun.mMat;
+    uboSun.time = game.time;
     DSSun.map(currentImage,&uboSun, sizeof(uboSun), 0);
     
     // Set mesh properties and map it
