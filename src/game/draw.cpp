@@ -107,4 +107,8 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
         uboCrystal.nMat = glm::inverse(glm::transpose(uboCrystal.mMat));
         DSCrystal[i].map(currentImage, &uboCrystal, sizeof(uboCrystal), 0);
     }
+
+    	uboText.visible = 1;
+		DSText.map(currentImage, &uboText, sizeof(uboText), 0);
+
 }

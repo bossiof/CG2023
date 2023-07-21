@@ -20,6 +20,9 @@ struct PlainUniformBlock {
 	alignas(16) glm::mat4 mMat;
 	alignas(4)  float time;
 };
+struct TextUniformBlock {
+	alignas(4) float visible;
+};
 
 // Define vertext types
 
@@ -53,6 +56,11 @@ struct VertexNormTanUV {
 struct VertexNorm {
 	glm::vec3 pos;
 	glm::vec3 norm;
+};
+
+struct VertexText {
+	glm::vec2 pos;
+	glm::vec2 UV;
 };
 
 #endif//VERTEX_TYPES_HPP

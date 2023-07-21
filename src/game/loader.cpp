@@ -49,6 +49,12 @@ void GameMain::localInit() {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT}
     });
 
+    DSLText.init(this, {
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS},
+	    {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
+    });
+    
+
     // Describe the bindings used to interact with the shader
     // you must specify:
     //      1. Binding number
@@ -125,6 +131,15 @@ void GameMain::localInit() {
         {0, 3, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexTorus, tan),
             sizeof(glm::vec3), TANGENT}
     });
+
+    VText.init(this, {
+        {0, sizeof(VertexText), VK_VERTEX_INPUT_RATE_VERTEX}
+        }, {
+        {0, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexText, pos),
+            sizeof(glm::vec2), OTHER},
+        {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexText, UV),
+            sizeof(glm::vec2), UV}
+        });
     // Initialize a new pipeline using the specified:
     //      1. Vertex types
     //      2. Vertex shader
@@ -183,6 +198,12 @@ void GameMain::localInit() {
         "shaders/SunFrag.spv",
         {&DSLUniverse});//to be edited to accomodate the descriptor set layout for the sun
     
+    PText.init(this, 
+        &VText, 
+        "shaders/TextVert.spv", 
+        "shaders/TextFrag.spv", 
+        {&DSLText});
+    PText.setAdvancedFeatures(VK_COMPARE_OP_LESS_OR_EQUAL,VK_POLYGON_MODE_FILL,VK_CULL_MODE_NONE,false);    
 
     // Load the objects data specifying
     //      1. The vertext type to load
@@ -218,6 +239,17 @@ void GameMain::localInit() {
         &VNorm,
         "Assets/Objects/crystal.obj",
         OBJ);
+
+
+    MText.vertices = {
+        {{-0.8f, 0.6f}, {0.0f,0.0f}}, 
+        {{-0.8f, 0.95f}, {0.0f,1.0f}},
+        {{ 0.8f, 0.6f}, {1.0f,0.0f}}, 
+        {{ 0.8f, 0.95f}, {1.0f,1.0f}}};
+
+	MText.indices = {0, 1, 2,    1, 2, 3};
+	MText.initMesh(this, 
+        &VText);
     
     // Load the texture specifying
     //      1. The file name
@@ -243,6 +275,9 @@ void GameMain::localInit() {
     
     TToon.init(this,
         "Assets/Textures/toon_light.jpg");
+    
+    TText.init(this, 
+        "Assets/Textures/PressSpace.png");
 
     // You can initialize here the matrices used for static transformations
     
@@ -260,6 +295,7 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
     PTorus.create();
     PSun.create();
     PCrystal.create();
+    PText.create();
     //PSun.create();
 
     // Initialize the Descriptor Set specifying
@@ -321,6 +357,11 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
         {1, TEXTURE, 0, &TTorus}
     });
+		
+    DSText.init(this, &DSLText, {
+		{0, UNIFORM, sizeof(TextUniformBlock), nullptr},
+		{1, TEXTURE, 0, &TText}
+	});
 
 }
 
@@ -399,4 +440,14 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
             0,
             0);
     }
+
+    PText.bind(commandBuffer);
+	MText.bind(commandBuffer);
+	DSText.bind(commandBuffer, PText, 0, currentImage);
+	vkCmdDrawIndexed(commandBuffer,
+		static_cast<uint32_t>(MText.indices.size()), 
+        1, 
+        0, 
+        0, 
+        0);
 }

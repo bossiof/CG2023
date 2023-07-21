@@ -27,6 +27,7 @@ protected:
         DSLTorus,
         DSLAsteroids,
         DSLCrystal,
+        DSLText,
         DSLPToonLight;
 
     // Define a new of type Vertex Descriptor
@@ -42,6 +43,7 @@ protected:
         VNorm,
         VNormUV,
         VNormTanUV,
+        VText,
         VSun;
 
     // Create a new custom pipeline
@@ -51,7 +53,8 @@ protected:
         PTorus,
         PAsteroids,
         PSun,
-        PCrystal;
+        PCrystal,
+        PText;
         //PSun;
 
     // Objects to keep model data, be sure to use the proper
@@ -70,6 +73,8 @@ protected:
         MCrystal;
     Model<VertexTorus>
         MTorus;
+    Model<VertexText>
+        MText;
 
     // Objects to keep texture data
     // When creating a new one, be sure to update
@@ -81,6 +86,7 @@ protected:
         TAsteroids,
         TTorus,
         TAsteroidsNormMap,
+        TText,
         TToon;
     
     // Create a new descriptor set for your pipeline
@@ -94,6 +100,7 @@ protected:
         DSTorus,
         DSAsteroids[ASTEROIDS],
         DSCrystal[POWERUPS],
+        DSText,
         DSPToonLight;
 
     // Uniform Blocks Objects are data passed to the GPU
@@ -117,7 +124,9 @@ protected:
         uboTorus,
         uboMesh,
         uboCrystal;
-
+    
+    TextUniformBlock
+        uboText;
     // Define matrices statically used by the program
     // EG: matricess to properly scale the sun or the universe
     // You can initialize them at
