@@ -48,12 +48,12 @@ float C[] = {
     1, 0, 0,
     0
 };
-
+//here we initialize all the objects that we will use in our game
 GameModel::GameModel() {
     character = new SpaceShip(glm::vec3(0,0,0), 0.5);
     camera = new GenericObject(glm::vec3(0,0,0));
     // this has to be fixed
-    sun = new GenericObject(glm::vec3(0,-50,0));
+    sun = new GenericObject(glm::vec3(0,-41,0));
     logDebug("Initializing asteroids");
     for (int i = 0; i< 4 * AST; i+=4) {
         asteroids.push_back(Asteroid(
