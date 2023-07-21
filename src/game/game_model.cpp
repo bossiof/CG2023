@@ -1,8 +1,8 @@
 #include "game_model.hpp"
+#include "game_main.hpp"
 #include "log.h"
 #include "vulkan/vulkan_core.h"
 
-#define AST 5
 // For each asteroid
 //      Position (x,y,z)
 //      Scaling factor
@@ -23,7 +23,6 @@ float A[] = {
     4
 };
 
-#define PUP 5
 // For each powerup
 //      Position
 float P[] = {
@@ -34,8 +33,6 @@ float P[] = {
     -20,    30,    12
 };
 
-
-#define CHK 2
 // For each checkpoint
 //      Position (x,y,z)
 //      Rotation vector (x,y,z)
@@ -46,6 +43,9 @@ float C[] = {
     90,
     0, 10, 0,
     1, 0, 0,
+    0,
+    10, 0, 0,
+    1, 0, 0,
     0
 };
 //here we initialize all the objects that we will use in our game
@@ -55,7 +55,7 @@ GameModel::GameModel() {
     // this has to be fixed
     sun = new GenericObject(glm::vec3(0,-41,0));
     logDebug("Initializing asteroids");
-    for (int i = 0; i< 4 * AST; i+=4) {
+    for (int i = 0; i< 4 * ASTEROIDS; i+=4) {
         asteroids.push_back(Asteroid(
             glm::vec3(
                 A[i],
@@ -65,7 +65,7 @@ GameModel::GameModel() {
     }
 
     logDebug("Initializing powerups");
-    for (int i = 0; i< 3 * PUP; i+=3) {
+    for (int i = 0; i< 3 * POWERUPS; i+=3) {
         powerUps.push_back(PowerUp(
                 glm::vec3(
                     A[i+1],
@@ -73,7 +73,7 @@ GameModel::GameModel() {
                     A[i+2])));
     }
     logDebug("Initializing checkpoints");
-    for (int i = 0; i< 7 * CHK; i+=7) {
+    for (int i = 0; i< 7 * CHECKPOINTS; i+=7) {
         checkpoints.push_back(Checkpoint(
             glm::vec3(
                 C[i],

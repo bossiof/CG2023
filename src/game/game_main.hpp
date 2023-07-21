@@ -8,6 +8,10 @@
 
 #include <iostream>
 
+#define ASTEROIDS   5
+#define CHECKPOINTS 3
+#define POWERUPS    5
+
 std::ostream& operator<<(std::ostream& stream, glm::vec3& vec);
 
 class GameMain : public BaseProject {
@@ -88,8 +92,8 @@ protected:
         DSUniverse,
         DSMesh,
         DSTorus,
-        DSAsteroids[5],
-        DSCrystal[5],
+        DSAsteroids[ASTEROIDS],
+        DSCrystal[POWERUPS],
         DSPToonLight;
 
     // Uniform Blocks Objects are data passed to the GPU

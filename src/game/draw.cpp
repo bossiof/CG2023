@@ -43,7 +43,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     uboMesh.nMat = glm::inverse(glm::transpose(uboMesh.mMat));
     DSMesh.map(currentImage, &uboMesh, sizeof(uboMesh), 0);
 
-    for(int i = 0; i<5; i++) {
+    for(int i = 0; i<ASTEROIDS; i++) {
         // Set mesh properties and map it
         // NEEDS SunLight to be set
         uboMesh.mMat =
@@ -77,7 +77,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
 
     DSTorus.map(currentImage, &uboTorus, sizeof(uboTorus), 0);
 
-    for(int i = 0; i<5; i++) {
+    for(int i = 0; i<POWERUPS; i++) {
         // Set sunlight properties and map it
         guboPLCrystal.lightPos = game.powerUps[i].position + glm::vec3(
             glm::cos(
