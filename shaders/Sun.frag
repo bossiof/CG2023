@@ -21,8 +21,8 @@ vec2 iResolution = vec2(800,600);
 void main() {
 	// outputColor only depends on the texture itself
 	//outColor = texture(tex, fragUV);
-	outColor.r = (0.8+0.2*iTime)*texture(tex, fragUV).r;
-	outColor.g = (0.8+0.2*iTime)*(1-clamp(0.38*(0.7+iTime),0.0,1.3))* texture(tex, fragUV).g;
-	outColor.b = (0.8+0.2*iTime)*(1-clamp(0.38*(0.7+iTime),0.0,1.3))*texture(tex, fragUV).b;
+	outColor.r = 0.02+(0.8+0.2*iTime)*texture(tex, fragUV).r;
+	outColor.g = 0.02+(0.8+0.2*iTime)* texture(tex, fragUV).g;
+	outColor.b = 0.02+(0.8+0.2*iTime)*texture(tex, fragUV).b;
 	outColor[3]=  texture(tex, fragUV)[3];
 }

@@ -289,7 +289,7 @@ void GameMain::localInit() {
     TAsteroidsNormMap.init(this, 
         "Assets/Textures/asteroid_norm.png");
     TTorus.init(this,
-        "Assets/Textures/TorusTexture.jpg");
+        "Assets/Textures/nebula_texture_torus_hd.jpg");
     
     TToon.init(this,
         "Assets/Textures/toon_light.jpg");
