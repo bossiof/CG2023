@@ -53,7 +53,8 @@ GameModel::GameModel() {
     character = new SpaceShip(glm::vec3(0,0,0), 0.5);
     camera = new GenericObject(glm::vec3(0,0,0));
     // this has to be fixed
-    sun = new GenericObject(glm::vec3(0,-41,0));
+    sun = new GenericObject(glm::vec3(0,-71,0));
+    Earth = new GenericObject(glm::vec3(-35,50,-12));
     logDebug("Initializing asteroids");
     for (int i = 0; i< 4 * ASTEROIDS; i+=4) {
         asteroids.push_back(Asteroid(
@@ -94,6 +95,7 @@ GameModel::~GameModel() {
     delete character;
     delete camera;
     delete sun;
+    delete Earth;
 }
 
 GenericObject::GenericObject(glm::vec3 position) {
@@ -104,7 +106,7 @@ ColliderObject::ColliderObject(glm::vec3 position, float radius) {
     this->position = position;
     this->radius = radius;
 }
-
+//here we return 1 if the distance between our object and other objects is less than a certain amount
 bool ColliderObject::collision(ColliderObject& other) {
     return glm::distance(this->position, other.position)
         < (this->radius + other.radius);
@@ -127,7 +129,8 @@ Checkpoint::Checkpoint(glm::vec3 position, glm::vec3 rotation_vec, float rotatio
 void Checkpoint::applyEffect(GameModel& game) {
     
 }
-
+//here we initialize the powerUp: when we touch a crystal we have 4 seconds of speed boost
+//to use when pressing space
 PowerUp::PowerUp(glm::vec3 position): ColliderObject(position, 0.1) {}
 void PowerUp::applyEffect(GameModel& game) {
     

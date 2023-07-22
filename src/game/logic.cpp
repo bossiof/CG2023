@@ -29,7 +29,7 @@ static inline T damp(T oldVal, T newVal, float lambda, float dt) {
 void GameMain::gameLogic(GameModel& game) {
 
 	const float nearPlane = 0.1f;
-	const float farPlane = 100.f;
+	const float farPlane = 160.f;
 
 	// Camera target height and distance
 	const float camHeight = 0.26;
@@ -144,7 +144,7 @@ void GameMain::gameLogic(GameModel& game) {
 	
 	float dist = glm::length(game.character->position); //how far are you from the center of the universe
 	
-	if(game.collision()||(dist > 40)){ //Did you hit anything or are you going out of bounds
+	if(game.collision()||(dist > 70)){ //Did you hit anything or are you going out of bounds
 		game.character->position -= 2*Momentum * uz * deltaT; //reset position
 		Momentum*=(-3); //invert movement (*3 for a satisfying bounce)
 	}

@@ -22,6 +22,7 @@ protected:
     // Define the layout for a new descriptor set
     DescriptorSetLayout
         DSLSun,
+        DSLEarth,
         DSLUniverse,
         DSLSPaceShip,
         DSLTorus,
@@ -44,7 +45,9 @@ protected:
         VNormUV,
         VNormTanUV,
         VText,
+        VEarth,
         VSun;
+        
 
     // Create a new custom pipeline
     Pipeline
@@ -53,9 +56,9 @@ protected:
         PTorus,
         PAsteroids,
         PSun,
+        PEarth,
         PCrystal,
         PText;
-        //PSun;
 
     // Objects to keep model data, be sure to use the proper
     // Vertex descriptor (the one which match the model
@@ -64,6 +67,7 @@ protected:
     // src/lib/data_types.hpp
     Model<VertexUV>
         MUniverse,
+        MEarth,
         MSun; 
     Model<VertexNormUV>
         MMesh;
@@ -83,6 +87,8 @@ protected:
         TUniverse,
         TMesh,
         TSun,
+        T,
+        TEarth,
         TAsteroids,
         TTorus,
         TAsteroidsNormMap,
@@ -95,6 +101,7 @@ protected:
     DescriptorSet
         DSSunLight,
         DSSun,
+        DSEarth,
         DSUniverse,
         DSMesh,
         DSTorus,
@@ -117,6 +124,7 @@ protected:
     // UBO for elements whiich only need a model and a texture
     PlainUniformBlock
         uboSun,
+        uboEarth,
         uboUniverse;
     
     // UBO for meshes (elements which interact with light)
@@ -134,6 +142,7 @@ protected:
     glm::mat4
         I = glm::mat4(1),   // Since we use it a lot
         USun, //for the sun scaling
+        UEarth, //for the planet Earth scaling  
         Uast,
         UGWM;
 

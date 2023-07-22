@@ -20,7 +20,7 @@ public:
     float time;
     glm::mat4 fixed_ViewPrj,ViewPrj, World;
     SpaceShip* character;
-    GenericObject *camera, *sun;
+    GenericObject *camera, *sun,  *Earth;
     std::vector<Asteroid> asteroids;
     std::vector<Checkpoint> checkpoints;
     std::vector<PowerUp> powerUps;

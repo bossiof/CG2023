@@ -31,10 +31,21 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     DSSunLight.map(currentImage, &guboPLSun, sizeof(guboPLSun), 0);
 
     // Set sun model properteies and map it
-    uboSun.mMat = glm::translate(I, game.sun->position)*USun;
+    uboSun.mMat = glm::translate(I, game.sun->position)* glm::rotate(
+            I,
+            glm::radians(3.0f) * 
+            game.time,
+            glm::vec3(0,0,1))*
+            USun;
     uboSun.mvpMat = game.ViewPrj * uboSun.mMat;
     uboSun.time = game.time;
     DSSun.map(currentImage,&uboSun, sizeof(uboSun), 0);
+
+    // Set Earth model properteies and map it
+    uboEarth.mMat = glm::translate(I, game.Earth->position)*UEarth;
+    uboEarth.mvpMat = game.ViewPrj * uboEarth.mMat;
+    DSEarth.map(currentImage,&uboEarth, sizeof(uboEarth), 0);
+
     
     // Set mesh properties and map it
     // NEEDS SunLight to be set

@@ -34,6 +34,11 @@ void GameMain::localInit() {
     DSLSun.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
+        DSLEarth.init(this, {
+        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL},
+        {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
+    });
+
 
     DSLTorus.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT},
@@ -118,6 +123,15 @@ void GameMain::localInit() {
         {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexUV, UV),
             sizeof(glm::vec2), UV}
     });
+    VEarth.init(this, {
+        {0, sizeof(VertexUV), VK_VERTEX_INPUT_RATE_VERTEX}
+    }, {
+        {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexUV, pos),
+            sizeof(glm::vec3), POSITION},
+        {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexUV, UV),
+            sizeof(glm::vec2), UV}
+    });
+
 
     VTorus.init(this, {
        {0, sizeof(VertexTorus), VK_VERTEX_INPUT_RATE_VERTEX}
@@ -186,18 +200,16 @@ void GameMain::localInit() {
         "shaders/CrystalFrag.spv",
         {&DSLPToonLight, &DSLCrystal});
 
-    /*PSun.init(this,
-        &VSun,
-        "shaders/PlainVert.spv",
-        "shaders/PlainFrag.spv",
-    {&DSLUniverse});*/
-
     PSun.init(this,
         &VSun,
         "shaders/PlainVert.spv",
         "shaders/SunFrag.spv",
         {&DSLUniverse});//to be edited to accomodate the descriptor set layout for the sun
-    
+    PEarth.init(this,
+        &VEarth,
+        "shaders/PlainVert.spv",
+        "shaders/PlainFrag.spv",
+        {&DSLEarth});//to be edited to accomodate the descriptor set layout for the sun
     PText.init(this, 
         &VText, 
         "shaders/TextVert.spv", 
@@ -230,6 +242,11 @@ void GameMain::localInit() {
         &VSun,
         "Assets/Objects/Sphere.gltf",
         GLTF);
+    MEarth.init(this,
+        &VEarth,
+        "Assets/Objects/Sphere.gltf",
+        GLTF);
+
     MTorus.init(this,
         &VTorus,
         "Assets/Objects/fat_torus.obj",
@@ -240,13 +257,13 @@ void GameMain::localInit() {
         "Assets/Objects/crystal.obj",
         OBJ);
 
-
+    //we directly create a mesh with the vertices for text
     MText.vertices = {
         {{-0.8f, 0.5f}, {0.0f,0.0f}}, //Top left
         {{ -0.8f, 0.95f}, {0.0f,1.0f}},//Bottom left 
         {{ 0.8f, 0.5f}, {1.0f,0.0f}}, //Top right
         {{ 0.8f, 0.95f}, {1.0f,1.0f}}}; //Bottom right
-
+    //here we connect the vertices using the indexes
 	MText.indices = {0, 1, 2,    1, 2, 3};
 	MText.initMesh(this, 
         &VText);
@@ -265,7 +282,8 @@ void GameMain::localInit() {
 
     TSun.init(this,
         "Assets/Textures/8k_sun.jpg");
-    
+    TEarth.init(this,
+        "Assets/Textures/8k_earth_daymap.jpg");
     TAsteroids.init(this, 
         "Assets/Textures/asteroid.png");
     TAsteroidsNormMap.init(this, 
@@ -282,21 +300,22 @@ void GameMain::localInit() {
     // You can initialize here the matrices used for static transformations
     
     // Global World Matrix for universe
-    UGWM = glm::scale(I, glm::vec3(50));
+    UGWM = glm::scale(I, glm::vec3(80));
     // Global World Matrix for the sun
     USun = glm::scale(I, glm::vec3(10));
+    UEarth = glm::scale(I, glm::vec3(5));
     Uast = glm::scale(I, glm::vec3(1.25));
 }
 
 void GameMain::pipelinesAndDescriptorSetsInit() {
-    PPlain.create();
-    PMesh.create();
+    PPlain.create(); //this pipeline is used for the universe and to apply the 'Plain' shader
+    PMesh.create(); 
     PAsteroids.create();
     PTorus.create();
     PSun.create();
+    PEarth.create();
     PCrystal.create();
     PText.create();
-    //PSun.create();
 
     // Initialize the Descriptor Set specifying
     //      1. A reference to its layout
@@ -323,6 +342,10 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
         {1, TEXTURE, 0, &TSun}
     });
+    DSEarth.init(this, &DSLEarth, {
+        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
+        {1, TEXTURE, 0, &TEarth}
+    });
 
     DSPToonLight.init(this, &DSLPToonLight, {
         {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr},
@@ -344,14 +367,6 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         });
     }
 
-    /*DSSun.init(this, &DSLUniverse, {
-        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
-        {1, TEXTURE, 0, &TSun}
-    });
-
-    DSSunLight.init(this, &DSLSun, {
-        {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
-    });*/
 
     DSTorus.init(this, &DSLTorus, {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
@@ -389,6 +404,15 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
     DSSun.bind(commandBuffer, PSun, 0, currentImage);
     vkCmdDrawIndexed(commandBuffer,
         static_cast<uint32_t>(MSun.indices.size()),
+        1,
+        0,
+        0 ,
+        0);
+    PEarth.bind(commandBuffer);
+    MEarth.bind(commandBuffer);
+    DSEarth.bind(commandBuffer, PEarth, 0, currentImage);
+    vkCmdDrawIndexed(commandBuffer,
+        static_cast<uint32_t>(MEarth.indices.size()),
         1,
         0,
         0 ,

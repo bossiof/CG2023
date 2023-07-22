@@ -14,10 +14,15 @@ layout(set = 0, binding = 0) uniform GlobalUniformBufferObject{
 
 layout(set = 0, binding = 1) uniform sampler2D tex;
 
-float time = sin(gubo.time/4);
+float iTime = pow(sin(gubo.time/4),2);
+vec2 iResolution = vec2(800,600); 
+
 
 void main() {
 	// outputColor only depends on the texture itself
 	//outColor = texture(tex, fragUV);
-	outColor = clamp((0.5+abs(time)),0.0,1.4)* texture(tex, fragUV);
+	outColor.r = (0.8+0.2*iTime)*texture(tex, fragUV).r;
+	outColor.g = (0.8+0.2*iTime)*(1-clamp(0.38*(0.7+iTime),0.0,1.3))* texture(tex, fragUV).g;
+	outColor.b = (0.8+0.2*iTime)*(1-clamp(0.38*(0.7+iTime),0.0,1.3))*texture(tex, fragUV).b;
+	outColor[3]=  texture(tex, fragUV)[3];
 }
