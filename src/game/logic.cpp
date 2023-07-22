@@ -82,8 +82,7 @@ void GameMain::gameLogic(GameModel& game) {
 		boost_time += 4;
 		logDebug("Power up");
 	}
-
-
+	
 	MOVE_SPEED = 2;
 	Extra=0;
 	FOVy = glm::radians(45.0f);

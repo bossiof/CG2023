@@ -31,6 +31,7 @@ public:
     inline int curr_check() { return current_checkpoint; }
     GameModel();
     ~GameModel();
+    bool visiblecommands=true;
     // Define here all the variables for the game model
 };
 

@@ -108,7 +108,8 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
         DSCrystal[i].map(currentImage, &uboCrystal, sizeof(uboCrystal), 0);
     }
 
-    	uboText.visible = 1;
+        uboText.visible=game.visiblecommands; //Set if text overlay is visible or invisible
+        if(game.time>10) game.visiblecommands=false; //if ten seconds have passed delete the overlay
 		DSText.map(currentImage, &uboText, sizeof(uboText), 0);
 
 }

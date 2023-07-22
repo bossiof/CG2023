@@ -242,10 +242,10 @@ void GameMain::localInit() {
 
 
     MText.vertices = {
-        {{-0.8f, 0.6f}, {0.0f,0.0f}}, 
-        {{-0.8f, 0.95f}, {0.0f,1.0f}},
-        {{ 0.8f, 0.6f}, {1.0f,0.0f}}, 
-        {{ 0.8f, 0.95f}, {1.0f,1.0f}}};
+        {{-0.8f, 0.5f}, {0.0f,0.0f}}, //Top left
+        {{ -0.8f, 0.95f}, {0.0f,1.0f}},//Bottom left 
+        {{ 0.8f, 0.5f}, {1.0f,0.0f}}, //Top right
+        {{ 0.8f, 0.95f}, {1.0f,1.0f}}}; //Bottom right
 
 	MText.indices = {0, 1, 2,    1, 2, 3};
 	MText.initMesh(this, 
@@ -277,7 +277,7 @@ void GameMain::localInit() {
         "Assets/Textures/toon_light.jpg");
     
     TText.init(this, 
-        "Assets/Textures/PressSpace.png");
+        "Assets/Textures/Controls.png");
 
     // You can initialize here the matrices used for static transformations
     
