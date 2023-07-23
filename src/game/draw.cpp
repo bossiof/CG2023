@@ -44,6 +44,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     // Set Earth model properteies and map it
     uboEarth.mMat = glm::translate(I, game.Earth->position)*UEarth;
     uboEarth.mvpMat = game.ViewPrj * uboEarth.mMat;
+    uboEarth.nMat = glm::inverse(glm::transpose(uboEarth.mMat));
     DSEarth.map(currentImage,&uboEarth, sizeof(uboEarth), 0);
 
     

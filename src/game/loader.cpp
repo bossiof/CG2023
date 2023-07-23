@@ -34,7 +34,7 @@ void GameMain::localInit() {
     DSLSun.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
-        DSLEarth.init(this, {
+    DSLEarth.init(this, {
         {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL},
         {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT}
     });
@@ -124,12 +124,14 @@ void GameMain::localInit() {
             sizeof(glm::vec2), UV}
     });
     VEarth.init(this, {
-        {0, sizeof(VertexUV), VK_VERTEX_INPUT_RATE_VERTEX}
-    }, {
-        {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexUV, pos),
+       {0, sizeof(VertexEarth), VK_VERTEX_INPUT_RATE_VERTEX}
+         }, {
+        {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexEarth, pos),
             sizeof(glm::vec3), POSITION},
-        {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexUV, UV),
-            sizeof(glm::vec2), UV}
+        {0, 1, VK_FORMAT_R32G32_SFLOAT, offsetof(VertexEarth, UV),
+            sizeof(glm::vec2), UV},
+        {0, 2, VK_FORMAT_R32G32B32_SFLOAT, offsetof(VertexEarth, norm),
+            sizeof(glm::vec3), NORMAL},
     });
 
 
@@ -207,9 +209,9 @@ void GameMain::localInit() {
         {&DSLUniverse});//to be edited to accomodate the descriptor set layout for the sun
     PEarth.init(this,
         &VEarth,
-        "shaders/PlainVert.spv",
-        "shaders/PlainFrag.spv",
-        {&DSLEarth});//to be edited to accomodate the descriptor set layout for the sun
+        "shaders/EarthVert.spv",
+        "shaders/EarthFrag.spv",
+        {&DSLSun,&DSLEarth});//to be edited to accomodate the descriptor set layout for the sun
     PText.init(this, 
         &VText, 
         "shaders/TextVert.spv", 
@@ -343,7 +345,7 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {1, TEXTURE, 0, &TSun}
     });
     DSEarth.init(this, &DSLEarth, {
-        {0, UNIFORM, sizeof(PlainUniformBlock), nullptr},
+        {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
         {1, TEXTURE, 0, &TEarth}
     });
 
@@ -408,15 +410,7 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
-    PEarth.bind(commandBuffer);
-    MEarth.bind(commandBuffer);
-    DSEarth.bind(commandBuffer, PEarth, 0, currentImage);
-    vkCmdDrawIndexed(commandBuffer,
-        static_cast<uint32_t>(MEarth.indices.size()),
-        1,
-        0,
-        0 ,
-        0);
+
     DSSunLight.bind(commandBuffer, PMesh, 0, currentImage);
     PMesh.bind(commandBuffer);
     
@@ -450,7 +444,15 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
         0,
         0 ,
         0);
-    
+    PEarth.bind(commandBuffer);
+    MEarth.bind(commandBuffer);
+    DSEarth.bind(commandBuffer, PEarth, 1, currentImage);
+    vkCmdDrawIndexed(commandBuffer,
+        static_cast<uint32_t>(MEarth.indices.size()),
+        1,
+        0,
+        0 ,
+        0);
     DSPToonLight.bind(commandBuffer, PCrystal, 0, currentImage);
 
     MCrystal.bind(commandBuffer);

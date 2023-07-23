@@ -4,7 +4,6 @@
 layout(location = 0) in vec3 fragPos;
 layout(location = 1) in vec2 fragUV;
 layout(location =2) in vec3 fragNorm;
-layout(location =3) in vec3 fragTan;
 
 layout(location = 0) out vec4 outColor;
 
@@ -93,7 +92,4 @@ void main() {
 			+ ME,	// Emission component only depends on the emission of the object
 			0, 1),
 		1.0f);	// output color
-}/*
-void main(){
-		outColor = texture(tex, fragUV);
-}*/
+}

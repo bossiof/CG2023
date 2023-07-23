@@ -36,6 +36,7 @@ protected:
         VUniverse,
         VSpaceShip,
         VAsteroids,
+        VEarth,
         VTorus;
 
     // Define a new of type Vertex Descriptor
@@ -45,7 +46,6 @@ protected:
         VNormUV,
         VNormTanUV,
         VText,
-        VEarth,
         VSun;
         
 
@@ -67,7 +67,6 @@ protected:
     // src/lib/data_types.hpp
     Model<VertexUV>
         MUniverse,
-        MEarth,
         MSun; 
     Model<VertexNormUV>
         MMesh;
@@ -77,6 +76,8 @@ protected:
         MCrystal;
     Model<VertexTorus>
         MTorus;
+      Model<VertexEarth>
+        MEarth;      
     Model<VertexText>
         MText;
 
@@ -124,12 +125,12 @@ protected:
     // UBO for elements whiich only need a model and a texture
     PlainUniformBlock
         uboSun,
-        uboEarth,
         uboUniverse;
     
     // UBO for meshes (elements which interact with light)
     MeshUniformBlock
         uboTorus,
+        uboEarth,
         uboMesh,
         uboCrystal;
     
