@@ -79,7 +79,8 @@ protected:
       Model<VertexEarth>
         MEarth;      
     Model<VertexText>
-        MText;
+        MText,
+        MBoost;
 
     // Objects to keep texture data
     // When creating a new one, be sure to update
@@ -94,7 +95,8 @@ protected:
         TTorus,
         TAsteroidsNormMap,
         TText,
-        TToon;
+        TToon,
+        TBoost;
     
     // Create a new descriptor set for your pipeline
     // Remember to update
@@ -109,7 +111,8 @@ protected:
         DSAsteroids[ASTEROIDS],
         DSCrystal[POWERUPS],
         DSText,
-        DSPToonLight;
+        DSPToonLight,
+        DSBoost;
 
     // Uniform Blocks Objects are data passed to the GPU
     // Create a new object to pass data to the GPU
@@ -135,7 +138,8 @@ protected:
         uboCrystal;
     
     TextUniformBlock
-        uboText;
+        uboText,
+        uboBoost;
     // Define matrices statically used by the program
     // EG: matricess to properly scale the sun or the universe
     // You can initialize them at

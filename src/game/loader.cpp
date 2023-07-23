@@ -262,14 +262,23 @@ void GameMain::localInit() {
     //we directly create a mesh with the vertices for text
     MText.vertices = {
         {{-0.8f, 0.5f}, {0.0f,0.0f}}, //Top left
-        {{ -0.8f, 0.95f}, {0.0f,1.0f}},//Bottom left 
+        {{ -0.8f, 0.9f}, {0.0f,1.0f}},//Bottom left 
         {{ 0.8f, 0.5f}, {1.0f,0.0f}}, //Top right
-        {{ 0.8f, 0.95f}, {1.0f,1.0f}}}; //Bottom right
-    //here we connect the vertices using the indexes
+        {{ 0.8f, 0.9f}, {1.0f,1.0f}}}; //Bottom right
+
 	MText.indices = {0, 1, 2,    1, 2, 3};
 	MText.initMesh(this, 
         &VText);
     
+    MBoost.vertices = {
+        {{ 0.7f, -0.9f}, {0.0f,0.0f}}, //Top left
+        {{ 0.7f, -0.7f}, {0.0f,1.0f}},//Bottom left 
+        {{ 0.9f, -0.9f}, {1.0f,0.0f}}, //Top right
+        {{ 0.9f, -0.7f}, {1.0f,1.0f}}}; //Bottom right
+
+	MBoost.indices = {0, 1, 2,    1, 2, 3};
+	MBoost.initMesh(this, 
+        &VText);
     // Load the texture specifying
     //      1. The file name
     // Be sure to cleanup this at
@@ -298,6 +307,9 @@ void GameMain::localInit() {
     
     TText.init(this, 
         "Assets/Textures/Controls.png");
+
+    TBoost.init(this, 
+        "Assets/Textures/Boost.png");
 
     // You can initialize here the matrices used for static transformations
     
@@ -380,6 +392,10 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
 		{1, TEXTURE, 0, &TText}
 	});
 
+    DSBoost.init(this, &DSLText, {
+		{0, UNIFORM, sizeof(TextUniformBlock), nullptr},
+		{1, TEXTURE, 0, &TBoost}
+	});
 }
 
 void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentImage) {
@@ -437,6 +453,7 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
 
     PTorus.bind(commandBuffer);
     MTorus.bind(commandBuffer);
+    DSSunLight.bind(commandBuffer, PTorus, 0, currentImage);
     DSTorus.bind(commandBuffer, PTorus, 1, currentImage);
     vkCmdDrawIndexed(commandBuffer,
         static_cast<uint32_t>(MTorus.indices.size()),
@@ -472,6 +489,16 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
 	DSText.bind(commandBuffer, PText, 0, currentImage);
 	vkCmdDrawIndexed(commandBuffer,
 		static_cast<uint32_t>(MText.indices.size()), 
+        1, 
+        0, 
+        0, 
+        0);
+
+    PText.bind(commandBuffer);
+	MBoost.bind(commandBuffer);
+	DSBoost.bind(commandBuffer, PText, 0, currentImage);
+	vkCmdDrawIndexed(commandBuffer,
+		static_cast<uint32_t>(MBoost.indices.size()), 
         1, 
         0, 
         0, 

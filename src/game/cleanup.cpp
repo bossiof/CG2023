@@ -20,6 +20,7 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
     DSEarth.cleanup();
     DSTorus.cleanup();
     DSText.cleanup();
+    DSBoost.cleanup();
 
     DSPToonLight.cleanup();
     for(int i=0; i<5; i++) {
@@ -42,6 +43,7 @@ void GameMain::localCleanup() {
     TAsteroidsNormMap.cleanup();
     TToon.cleanup();
     TText.cleanup();
+    TBoost.cleanup();
     // Cleanup Models
     MTorus.cleanup();
     MUniverse.cleanup();
@@ -51,6 +53,7 @@ void GameMain::localCleanup() {
     MAsteroids.cleanup();
     MCrystal.cleanup();
     MText.cleanup();
+    MBoost.cleanup();
 
     // Cleanup DescriptorSetLayout
     DSLTorus.cleanup();

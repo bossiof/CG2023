@@ -87,8 +87,10 @@ void GameMain::gameLogic(GameModel& game) {
 	Extra=0;
 	FOVy = glm::radians(45.0f);
 	if(boost_time <= 0.0f) {
+		uboBoost.visible=0;
 		boost_time = 0.0f;
 	} else {
+		uboBoost.visible=1;
 		if(fire && m.z > 0) {
 			MOVE_SPEED = 8;
 			Extra=25; //I want to go really fast foward
