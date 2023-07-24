@@ -77,6 +77,9 @@ void GameMain::gameLogic(GameModel& game) {
 	// check if collision happened with a crystal
 	was_on_crystal = is_on_crystal;
 	is_on_crystal = game.on_crystal();
+	if(sin(game.time)*6.28==1){
+			logDebug("x = %d, y = %d, z = %d ", game.character->position.x,game.character->position.y, game.character->position.z);
+	}
 
 	if(is_on_crystal && (! was_on_crystal)) {
 		boost_time += 4;

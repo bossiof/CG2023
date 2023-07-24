@@ -10,7 +10,7 @@
 //number of asteroids, checkpoints and powerups
 #define ASTEROIDS   10
 #define CHECKPOINTS 3
-#define POWERUPS    10
+#define POWERUPS    8
 
 std::ostream& operator<<(std::ostream& stream, glm::vec3& vec);
 

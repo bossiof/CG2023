@@ -47,7 +47,10 @@ float P[] = {
     0,      15,     0,
     0,      0,      10,
     10,     -10,    -10,
-    -20,    30,    12
+    -20,    30,    12,
+    -40,    32,    12,
+    -29,    3,    42,
+     30,    40,   50,
 };
 
 // For each checkpoint
@@ -73,6 +76,7 @@ GameModel::GameModel() {
     sun = new GenericObject(glm::vec3(0,-76,0));
     Earth = new GenericObject(glm::vec3(-35,70,-25));
     logDebug("Initializing asteroids");
+    //in this cycle i assign the positions and scaling to each asteroid 
     for (int i = 0; i< 4 * ASTEROIDS; i+=4) {
         asteroids.push_back(Asteroid(
             glm::vec3(
@@ -83,14 +87,16 @@ GameModel::GameModel() {
     }
 
     logDebug("Initializing powerups");
+    //in this cycle i assign the positions to each powerup crystal 
     for (int i = 0; i< 3 * POWERUPS; i+=3) {
         powerUps.push_back(PowerUp(
                 glm::vec3(
-                    A[i+1]+2*A[3],
-                    A[i]+2*A[3],
-                    A[i+2]+2*A[3])));
+                    P[i],
+                    P[i+1],
+                    P[i+2])));
     }
     logDebug("Initializing checkpoints");
+    //in this cycle i assign the positions, rotation angles and rotation vectors of the checkpoints
     for (int i = 0; i< 7 * CHECKPOINTS; i+=7) {
         checkpoints.push_back(Checkpoint(
             glm::vec3(
