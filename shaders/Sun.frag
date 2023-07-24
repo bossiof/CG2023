@@ -13,16 +13,13 @@ layout(set = 0, binding = 0) uniform GlobalUniformBufferObject{
 } gubo;
 
 layout(set = 0, binding = 1) uniform sampler2D tex;
-
-float iTime = pow(sin(gubo.time/4),2);
-vec2 iResolution = vec2(800,600); 
-
+//we create an internal time varying betweeen 0 and 1
+float iTime = pow(sin(gubo.time/6),2);
 
 void main() {
-	// outputColor only depends on the texture itself
-	//outColor = texture(tex, fragUV);
-	outColor.r = 0.02+(0.8+0.2*iTime)*texture(tex, fragUV).r;
-	outColor.g = 0.02+(0.8+0.2*iTime)* texture(tex, fragUV).g;
-	outColor.b = 0.02+(0.8+0.2*iTime)*texture(tex, fragUV).b;
+	//the sun output color is based only on the texture and decreases and increases slightly with time
+	outColor.r = 0.02+(0.6+0.5*iTime)*texture(tex, fragUV).r;
+	outColor.g = 0.02+(0.8+0.5*iTime)* texture(tex, fragUV).g;
+	outColor.b = 0.02+(0.6+0.4*iTime)*texture(tex, fragUV).b;
 	outColor[3]=  texture(tex, fragUV)[3];
 }
