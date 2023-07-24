@@ -314,7 +314,7 @@ void GameMain::localInit() {
     // You can initialize here the matrices used for static transformations
     
     // Global World Matrix for universe
-    UGWM = glm::scale(I, glm::vec3(100));
+    UGWM = glm::scale(I, glm::vec3(90));
     // Global World Matrix for the sun
     USun = glm::scale(I, glm::vec3(10));
     UEarth = glm::scale(I, glm::vec3(5));
@@ -475,7 +475,7 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
 
     MCrystal.bind(commandBuffer);
     PCrystal.bind(commandBuffer);
-    for(int i=0; i<CHECKPOINTS; i++) {
+    for(int i=0; i<POWERUPS; i++) {
         DSCrystal[i].bind(commandBuffer, PCrystal, 1, currentImage);
         vkCmdDrawIndexed(commandBuffer,     
             static_cast<uint32_t>(MCrystal.indices.size()), 

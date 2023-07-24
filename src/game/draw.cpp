@@ -108,7 +108,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
                 glm::radians(40.0f)
                 * game.time),
             0);
-        guboPLCrystal.lightColor = glm::vec4(5);
+        guboPLCrystal.lightColor = glm::vec4(1);
         guboPLCrystal.eyePos = game.camera->position;
         DSPToonLight.map(currentImage, &guboPLCrystal, sizeof(guboPLCrystal), 0);
 
