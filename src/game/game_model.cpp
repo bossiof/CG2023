@@ -19,20 +19,35 @@ float A[] = {
     -20, -50, 55,
     4,
 
-    40, 50, 45, 
+    30, 40, 45, 
     7,
 
-    35, 50, 25, 
+    -8, 48, -20, 
     6,
 
     53, 23, -55, 
     4,
 
-    55, 55, -55, 
+    35, 35, -35, 
     4,
 
     -35, -54, -52, 
     4,
+
+    0,    5,  -56,
+    3,
+
+    22,    -22,  16,
+    3,
+
+    -48,    25,  -3,
+    3,
+
+    -52,    20,  -13,
+    2,
+
+    -33,    6,     47,
+    4, 
 
     -45,-58,15,
     7
@@ -73,8 +88,8 @@ GameModel::GameModel() {
     character = new SpaceShip(glm::vec3(0,0,0), 0.5);
     camera = new GenericObject(glm::vec3(0,0,0));
     //here we create an object related to the position of the Sun and Earth
-    sun = new GenericObject(glm::vec3(0,-76,0));
-    Earth = new GenericObject(glm::vec3(-35,70,-25));
+    sun = new GenericObject(glm::vec3(0,-89,0));
+    Earth = new GenericObject(glm::vec3(-35,78,-25));
     logDebug("Initializing asteroids");
     //in this cycle i assign the positions and scaling to each asteroid 
     for (int i = 0; i< 4 * ASTEROIDS; i+=4) {

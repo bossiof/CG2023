@@ -314,10 +314,10 @@ void GameMain::localInit() {
     // You can initialize here the matrices used for static transformations
     
     // Global World Matrix for universe
-    UGWM = glm::scale(I, glm::vec3(90));
+    UGWM = glm::scale(I, glm::vec3(100));
     // Global World Matrix for the sun
-    USun = glm::scale(I, glm::vec3(10));
-    UEarth = glm::scale(I, glm::vec3(5));
+    USun = glm::scale(I, glm::vec3(20));
+    UEarth = glm::scale(I, glm::vec3(10));
     Uast = glm::scale(I, glm::vec3(1.25));
 }
 

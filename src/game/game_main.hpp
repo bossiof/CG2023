@@ -8,7 +8,7 @@
 
 #include <iostream>
 //number of asteroids, checkpoints and powerups
-#define ASTEROIDS   10
+#define ASTEROIDS   15
 #define CHECKPOINTS 3
 #define POWERUPS    8
 

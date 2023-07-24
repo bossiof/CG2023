@@ -12,13 +12,12 @@ The Mmakefile is a modified version of [tomdaley92/makefile](https://gist.github
 
 ## Ideas
 
-- [ ] Simil racing game (pass through portals/rings in the air)
-  - [X] Optional collision with obstacles
+- [x] Simil racing game (pass through portals/rings in the air)
+- [x] Optional collision with obstacles
 - [x] Basic movement logic
 - [x] S P E E D effect
 - [x] Space setting
 - [x] Model sun as point light
-- [ ] Different planet/object models
+- [x] Different planet/object models
 - [x] Skybox effects with shaders
-- [X] Implement movement inertia
-- [ ] Implement rotation inertia
+- [x] Implement movement inertia
