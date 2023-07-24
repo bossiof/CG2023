@@ -45,12 +45,12 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     uboEarth.mMat = glm::translate(I, game.Earth->position)* 
         glm::rotate(
             I,
-            glm::radians(2.0f)*game.time,
-            glm::vec3(0,1,0))* 
+            glm::radians(90.0f),
+            glm::vec3(1,0,0))* 
         glm::rotate(
             I,
-            glm::radians(10.0f)*game.time,
-            glm::vec3(0,0,1))*
+            glm::radians(5.0f)*game.time,
+            glm::vec3(0,1,0))* 
             UEarth;
     uboEarth.mvpMat = game.ViewPrj * uboEarth.mMat;
     uboEarth.nMat = glm::inverse(glm::transpose(uboEarth.mMat));
@@ -108,7 +108,7 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
                 glm::radians(40.0f)
                 * game.time),
             0);
-        guboPLCrystal.lightColor = glm::vec4(1);
+        guboPLCrystal.lightColor = glm::vec4(5);
         guboPLCrystal.eyePos = game.camera->position;
         DSPToonLight.map(currentImage, &guboPLCrystal, sizeof(guboPLCrystal), 0);
 
@@ -130,8 +130,8 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     }
 
         uboText.visible=game.visiblecommands; //Sets if text overlay is visible or invisible
-        if(game.time>10) game.visiblecommands=false; //if ten seconds have passed turn the overlay invisible
+        if(game.time>10) game.visiblecommands=false; //if ten seconds have passed delete the overlay
 		DSText.map(currentImage, &uboText, sizeof(uboText), 0);
 
-        DSBoost.map(currentImage, &uboBoost, sizeof(uboBoost), 0); //Map the boost overlay, its visibility is handled in logic
+        DSBoost.map(currentImage, &uboBoost, sizeof(uboBoost), 0);
 }
