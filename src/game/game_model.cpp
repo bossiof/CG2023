@@ -7,20 +7,37 @@
 //      Position (x,y,z)
 //      Scaling factor
 float A[] = {
-    20, 0,    0,
-    3,
+    50,  15,   50,
+    5,
 
-    0,  15,   0,
-    1,
-
-    0,  0,    10,
+    0,  -55,    7,
     5,
 
     10, -10, -10,
     2,
 
-    -20, -30, 12,
-    4
+    -20, -50, 55,
+    4,
+
+    40, 50, 45, 
+    7,
+
+    35, 50, 25, 
+    6,
+
+    53, 23, -55, 
+    4,
+
+    55, 55, -55, 
+    4,
+
+    -55, -54, -52, 
+    4,
+
+    -45,-58,15,
+    7
+
+    
 };
 
 // For each powerup
@@ -52,9 +69,9 @@ float C[] = {
 GameModel::GameModel() {
     character = new SpaceShip(glm::vec3(0,0,0), 0.5);
     camera = new GenericObject(glm::vec3(0,0,0));
-    // this has to be fixed
-    sun = new GenericObject(glm::vec3(0,-71,0));
-    Earth = new GenericObject(glm::vec3(-35,50,-12));
+    //here we create an object related to the position of the Sun and Earth
+    sun = new GenericObject(glm::vec3(0,-76,0));
+    Earth = new GenericObject(glm::vec3(-35,70,-25));
     logDebug("Initializing asteroids");
     for (int i = 0; i< 4 * ASTEROIDS; i+=4) {
         asteroids.push_back(Asteroid(
@@ -69,9 +86,9 @@ GameModel::GameModel() {
     for (int i = 0; i< 3 * POWERUPS; i+=3) {
         powerUps.push_back(PowerUp(
                 glm::vec3(
-                    A[i+1],
-                    A[i],
-                    A[i+2])));
+                    A[i+1]+2*A[3],
+                    A[i]+2*A[3],
+                    A[i+2]+2*A[3])));
     }
     logDebug("Initializing checkpoints");
     for (int i = 0; i< 7 * CHECKPOINTS; i+=7) {
@@ -97,11 +114,11 @@ GameModel::~GameModel() {
     delete sun;
     delete Earth;
 }
-
+//generic position object
 GenericObject::GenericObject(glm::vec3 position) {
     this->position = position;
 }
-
+//definition of the object to introduce collisions
 ColliderObject::ColliderObject(glm::vec3 position, float radius) {
     this->position = position;
     this->radius = radius;

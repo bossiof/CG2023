@@ -20,7 +20,7 @@ const float beta = 0.1f;
 const float g = 8;
 
 
-vec3 BRDF(vec3 V, vec3 N, vec3 L, vec3 Md, vec3 Ms, float gamma) {
+/*vec3 BRDF(vec3 V, vec3 N, vec3 L, vec3 Md, vec3 Ms, float gamma) {
 	//vec3 V  - direction of the viewer
 	//vec3 N  - normal vector to the surface
 	//vec3 L  - light vector (from the light model)
@@ -33,10 +33,10 @@ vec3 BRDF(vec3 V, vec3 N, vec3 L, vec3 Md, vec3 Ms, float gamma) {
 
 	vec3 Lambert_Phong_light =Lambert + Phong;
 	return Lambert_Phong_light;
-}
+}*/
 
 const float gamma = 160.0f;	// cosine power for the Blinn specular reflection
-
+/*
 // coefficients for the spehrical harmonics ambient light term
 const vec3 C00  = vec3( .38f, .43f, .45f)/8.0f;
 const vec3 C1m1 = vec3( .29f, .36f, .41f)/8.0f;
@@ -93,7 +93,7 @@ void main() {
 			+ ME,	// Emission component only depends on the emission of the object
 			0, 1),
 		1.0f);	// output color
-}/*
+}*/
 void main(){
 		outColor = texture(tex, fragUV);
-}*/
+}

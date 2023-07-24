@@ -23,11 +23,13 @@ void GameMain::pipelinesAndDescriptorSetsCleanup() {
     DSBoost.cleanup();
 
     DSPToonLight.cleanup();
-    for(int i=0; i<5; i++) {
+    for(int i=0; i<ASTEROIDS; i++) {
         DSAsteroids[i].cleanup();
-        DSCrystal[i].cleanup();
     }
-    
+    for (int i=0; i<POWERUPS; i++) {
+        DSCrystal[i].cleanup(); 
+    }
+   
 }
 
 void GameMain::localCleanup() {

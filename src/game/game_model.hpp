@@ -18,6 +18,7 @@ class GameModel {
     int current_checkpoint;
 public:
     float time;
+    int randpos= -5+rand()%10; //random position in a range for asteroids and crystals
     glm::mat4 fixed_ViewPrj,ViewPrj, World;
     SpaceShip* character;
     GenericObject *camera, *sun,  *Earth;

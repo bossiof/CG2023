@@ -314,7 +314,7 @@ void GameMain::localInit() {
     // You can initialize here the matrices used for static transformations
     
     // Global World Matrix for universe
-    UGWM = glm::scale(I, glm::vec3(80));
+    UGWM = glm::scale(I, glm::vec3(100));
     // Global World Matrix for the sun
     USun = glm::scale(I, glm::vec3(10));
     UEarth = glm::scale(I, glm::vec3(5));
@@ -370,18 +370,19 @@ void GameMain::pipelinesAndDescriptorSetsInit() {
         {0, UNIFORM, sizeof(GlobalUniformBlockPointLight), nullptr}
     });
 
-    for(int i = 0; i<5; i++) {
+    for(int i = 0; i<ASTEROIDS; i++) {
         DSAsteroids[i].init(this, &DSLAsteroids, {
             {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
             {1, TEXTURE, 0, &TAsteroids},
             {2, TEXTURE, 0, &TAsteroidsNormMap}
         });
+    }
+
+    for(int i = 0; i<POWERUPS; i++) {
         DSCrystal[i].init(this, &DSLCrystal, {
             {0, UNIFORM, sizeof(MeshUniformBlock), nullptr}
         });
     }
-
-
     DSTorus.init(this, &DSLTorus, {
         {0, UNIFORM, sizeof(MeshUniformBlock), nullptr},
         {1, TEXTURE, 0, &TTorus}
@@ -441,7 +442,7 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
     
     MAsteroids.bind(commandBuffer);
     PAsteroids.bind(commandBuffer);
-    for(int i=0; i<5; i++) {
+    for(int i=0; i<ASTEROIDS; i++) {
         DSAsteroids[i].bind(commandBuffer, PAsteroids, 1, currentImage);
         vkCmdDrawIndexed(commandBuffer,
             static_cast<uint32_t>(MAsteroids.indices.size()),
@@ -474,7 +475,7 @@ void GameMain::populateCommandBuffer(VkCommandBuffer commandBuffer, int currentI
 
     MCrystal.bind(commandBuffer);
     PCrystal.bind(commandBuffer);
-    for(int i=0; i<5; i++) {
+    for(int i=0; i<CHECKPOINTS; i++) {
         DSCrystal[i].bind(commandBuffer, PCrystal, 1, currentImage);
         vkCmdDrawIndexed(commandBuffer,     
             static_cast<uint32_t>(MCrystal.indices.size()), 

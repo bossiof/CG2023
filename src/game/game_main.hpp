@@ -7,10 +7,10 @@
 #include "game_model.hpp"
 
 #include <iostream>
-
-#define ASTEROIDS   5
+//number of asteroids, checkpoints and powerups
+#define ASTEROIDS   10
 #define CHECKPOINTS 3
-#define POWERUPS    5
+#define POWERUPS    10
 
 std::ostream& operator<<(std::ostream& stream, glm::vec3& vec);
 
