@@ -53,13 +53,13 @@ public:
 class SpaceShip: public ColliderObject {
 public:
     glm::quat rotation;
-    SpaceShip(glm::vec3 , float radius);
+    SpaceShip(glm::vec3 position, float radius);
     void applyEffect(GameModel& game);
 };
 
 class Asteroid: public ColliderObject {
 public:
-    Asteroid(glm::vec3 , float radius);
+    Asteroid(glm::vec3 position, float radius);
     void applyEffect(GameModel& game);
 };
 
@@ -67,7 +67,7 @@ class Checkpoint: public ColliderObject {
 public:
     glm::vec3 rotation_vec;
     float rotation_angle;
-    Checkpoint(glm::vec3 , glm::vec3 rotation_vec, float rotation_angle);
+    Checkpoint(glm::vec3 position, glm::vec3 rotation_vec, float rotation_angle);
     void applyEffect(GameModel& game);
 };
 

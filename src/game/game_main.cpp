@@ -2,9 +2,9 @@
 #include "log.h"
 
 // update this for every element you add
-#define UNIFORM_BLOCKS_IN_POOL  50
-#define TEXTURES_IN_POOL        50
-#define SETS_IN_POOL            50
+#define UNIFORM_BLOCKS_IN_POOL  60
+#define TEXTURES_IN_POOL        60
+#define SETS_IN_POOL            60
 
 // No need to change this
 std::ostream& operator<<(std::ostream& stream, glm::vec3& vec) {

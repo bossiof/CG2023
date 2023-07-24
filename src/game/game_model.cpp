@@ -66,6 +66,7 @@ float P[] = {
     -40,    32,    12,
     -29,    3,    42,
      30,    40,   50,
+     56,    26 , -23,
 };
 
 // For each checkpoint
@@ -73,15 +74,27 @@ float P[] = {
 //      Rotation vector (x,y,z)
 //      Rotation angle (degree)
 float C[] = {
-    0, -30, 0,
+    1, 2, -31,
     1, 0, 0,
     90,
+    0, -30, 0,
+    1, 0, 0,
+    0,
     0, 10, 0,
     1, 0, 0,
     0,
     10, 0, 0,
     1, 0, 0,
-    0
+    0,
+        -26, 23, 32,
+    1, 0, 0,
+    60,
+    14, 45, 25,
+    0, 0, 1,
+    30,
+    -22, 41, -11,
+    0, 1, 0,
+    45
 };
 //here we initialize all the objects that we will use in our game
 GameModel::GameModel() {
