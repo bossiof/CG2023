@@ -20,21 +20,6 @@ layout(set = 1, binding = 2) uniform sampler2D normMap;
 const float beta = 0.1f;
 const float g = 8;
 
-vec3 BRDF(vec3 V, vec3 N, vec3 L, vec3 Md, vec3 Ms, float gamma) {
-	//vec3 V  - direction of the viewer
-	//vec3 N  - normal vector to the surface
-	//vec3 L  - light vector (from the light model)
-	//vec3 Md - main color of the surface
-	//vec3 Ms - specular color of the surface
-	//float gamma - Exponent for power specular term
-	vec3 Lambert =Md*clamp(dot(L,N),0.0,1.0);
-	vec3 rx = -reflect(L,N);
-	vec3 Phong = Ms*pow(clamp(dot(V,rx),0.0,1.0),gamma);
-
-	vec3 Lambert_Phong_light =Lambert + Phong;
-	return Lambert_Phong_light;
-}
-
 const float gamma = 160.0f;	// cosine power for the Blinn specular reflection
 
 // coefficients for the spehrical harmonics ambient light term
