@@ -130,8 +130,8 @@ void GameMain::drawScreen(GameModel& game, uint32_t currentImage) {
     }
 
         uboText.visible=game.visiblecommands; //Sets if text overlay is visible or invisible
-        if(game.time>10) game.visiblecommands=false; //if ten seconds have passed delete the overlay
+        if(game.time>10) game.visiblecommands=false; //if ten seconds have passed turn the overlay invisible
 		DSText.map(currentImage, &uboText, sizeof(uboText), 0);
 
-        DSBoost.map(currentImage, &uboBoost, sizeof(uboBoost), 0);
+        DSBoost.map(currentImage, &uboBoost, sizeof(uboBoost), 0); //Map the boost overlay, its visibility is handled in logic
 }
