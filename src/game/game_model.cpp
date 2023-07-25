@@ -166,23 +166,13 @@ bool ColliderObject::collision(ColliderObject& other) {
 SpaceShip::SpaceShip(glm::vec3 position, float radius): ColliderObject(position, radius) {
     this->rotation = glm::quat(0,0,0,1);
 }
-void SpaceShip::applyEffect(GameModel& gmae) { return; }
 
 Asteroid::Asteroid(glm::vec3 position, float radius): ColliderObject(position, radius) {}
-void Asteroid::applyEffect(GameModel& game) {
-
-}
 
 Checkpoint::Checkpoint(glm::vec3 position, glm::vec3 rotation_vec, float rotation_angle): ColliderObject(position, 1) {
     this->rotation_vec = rotation_vec;
     this->rotation_angle = rotation_angle;
 }
-void Checkpoint::applyEffect(GameModel& game) {
-    
-}
 //here we initialize the powerUp: when we touch a crystal we have 4 seconds of speed boost
 //to use when pressing space
 PowerUp::PowerUp(glm::vec3 position): ColliderObject(position, 0.1) {}
-void PowerUp::applyEffect(GameModel& game) {
-    
-}
