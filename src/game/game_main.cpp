@@ -15,7 +15,7 @@ void GameMain::setWindowParameters() {
     // window size, titile and initial background
     windowWidth = 800;
     windowHeight = 600;
-    windowTitle = "SpaceX";
+    windowTitle = "DEEPSKY";
     windowResizable = GLFW_TRUE;
     initialBackgroundColor = {0.0f, 0.005f, 0.01f, 1.0f};
     
@@ -24,7 +24,7 @@ void GameMain::setWindowParameters() {
     texturesInPool =  TEXTURES_IN_POOL;
     setsInPool = SETS_IN_POOL;
     /* Update the requirements for the size of the pool */
-    
+    //here we dinamically set the aspect ratio
     Ar = (float)windowWidth / (float)windowHeight;
 }
 
@@ -37,7 +37,7 @@ void GameMain::onWindowResize(int w, int h) {
 // No need to change this
 void GameMain::updateUniformBuffer(uint32_t currentImage) {
     static GameModel game;
-
+    //if we press escape we closw the window
     if(glfwGetKey(window, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}

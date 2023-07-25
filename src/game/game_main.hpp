@@ -37,10 +37,7 @@ protected:
         VSpaceShip,
         VAsteroids,
         VEarth,
-        VTorus;
-
-    // Define a new of type Vertex Descriptor
-    VertexDescriptor
+        VTorus,
         VUV,
         VNorm,
         VNormUV,

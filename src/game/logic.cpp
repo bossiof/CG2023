@@ -62,21 +62,24 @@ void GameMain::gameLogic(GameModel& game) {
 		fire;
 	static float boost_time = 0.0f;
 	this->getSixAxis(deltaT, m, r, fire);
-	
+	//here we convert the time passed since last frame into an actual "timestamp" 
 	game.time += deltaT;
 
 	static float
-		MOVE_SPEED = 2;
-	static float Extra=0;
-	static float CAP_SPEED=8;
-	static float fixed_FOVy = glm::radians(45.0f);
+		MOVE_SPEED = 2;//standard movement speed
+	static float Extra=0;//extra speed gained by the boost obtained by crystals
+	static float CAP_SPEED=8;//max speed reachable 
+	static float fixed_FOVy = glm::radians(45.0f);//FOV used when not in "boost mode"
 
 	static float
+		//variable FOV, to be changed depending on the presence of "boost mode" 
 		FOVy = glm::radians(45.0f);
 
 	// check if collision happened with a crystal
-	was_on_crystal = is_on_crystal;
-	is_on_crystal = game.on_crystal();
+	was_on_crystal = is_on_crystal; //here i store the the value in another variable
+	is_on_crystal = game.on_crystal(); //here i update the value to the current status
+	//every second we output the character position, used for debug on object positions
+	/*
 	static float internal_timer = 1.0;
 	if (internal_timer>0.0)
 	{
@@ -85,9 +88,9 @@ void GameMain::gameLogic(GameModel& game) {
 	else {
 	std::cout<<game.character->position<<std::endl;
 	internal_timer=1.0;
-	}
+	}*/
 
-
+	//if we are on a crystal and we werent before, add 4 seconds of boost time 
 	if(is_on_crystal && (! was_on_crystal)) {
 		boost_time += 4;
 		logDebug("Power up");
@@ -96,11 +99,14 @@ void GameMain::gameLogic(GameModel& game) {
 	MOVE_SPEED = 2;
 	Extra=0;
 	FOVy = glm::radians(45.0f);
+	//if we don't have anymore boost we don't show any boost icon
 	if(boost_time <= 0.0f) {
 		uboBoost.visible=0;
 		boost_time = 0.0f;
 	} else {
-		uboBoost.visible=1;
+		//if we have boost time we show the icon in the upright corner of the window
+		uboBoost.visible=1;	
+		//if we activate the boost we increase move speed and cange the FOV to "curve spacetime"
 		if(fire && m.z > 0) {
 			MOVE_SPEED = 8;
 			Extra=25; //I want to go really fast foward
@@ -112,7 +118,8 @@ void GameMain::gameLogic(GameModel& game) {
 	}
 
 	// Game Logic implementation
-	// Current Player Position - statc variables make sure thattheri value remain unchanged in subsequent calls to the procedure
+	// Current Player Position - statc variables make sure that their value remain 
+	// unchanged in subsequent calls to the procedure
 	static float CamYaw = 0.0f,
 		CamPitch = 0.0f,
 		CamRoll = 0.0f;
@@ -129,7 +136,7 @@ void GameMain::gameLogic(GameModel& game) {
 		  glm::rotate(glm::quat(1,0,0,0), CamPitch, glm::vec3(1,0,0))
 		* glm::rotate(glm::quat(1,0,0,0), CamYaw, glm::vec3(0,1,0))
 		* glm::rotate(glm::quat(1,0,0,0), CamRoll, glm::vec3(0,0,1));
-
+	//quaternion matrix, used in the world matrix for simplicity and in the creation of ux, uy and uz
 	glm::mat4 MQ = glm::mat4(game.character->rotation);
 
 	glm::vec3 ux = glm::vec3(MQ * glm::vec4(1,0,0,1));
@@ -138,16 +145,16 @@ void GameMain::gameLogic(GameModel& game) {
 
 	DAMP(float, MOVE_SPEED, SPEED_EFFECT_DAMPING);
 	DAMP(float, FOVy, SPEED_EFFECT_DAMPING);
-
 	static float Momentum; 
 	
 	if(m.z>0)Momentum+=MOVE_SPEED*deltaT;
 	else if(m.z<0) Momentum-=3*MOVE_SPEED*deltaT; //3* to make it hadle better
-	else Momentum-=Momentum*(deltaT); //decrease speed gradually
-	Momentum=glm::max(-CAP_SPEED/3.0f,glm::min(Momentum,CAP_SPEED+Extra)); //caps the speed, I wanna be slower in reverse cuz game mechanics
+	else Momentum-=Momentum*(deltaT); //decrease momentum gradually
+	Momentum=glm::max(-CAP_SPEED/3.0f,glm::min(Momentum,CAP_SPEED+Extra)); 
+	//caps the speed, I wanna be slower in reverse cuz game mechanics
 
 
-	//we calculatSe initial position 
+	//we calculate initial position 
 	//we do not use the left/right up/down translation on the starship
 	//game.character->position += Momentum.y * uy * deltaT; //for debugging
 	game.character->position += Momentum * uz * deltaT;

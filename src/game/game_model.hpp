@@ -40,11 +40,10 @@ public:
     GenericObject(glm::vec3 position);
     glm::vec3 position;
 };
-
 class ColliderObject {
 public:
-    glm::vec3 position;
-    float radius;
+    glm::vec3 position;//position of the center of the collision sphere
+    float radius;//radius of the collision sphere
     ColliderObject(glm::vec3 position, float radius);
     bool collision(ColliderObject& other);
     virtual void applyEffect(GameModel& game) {};
