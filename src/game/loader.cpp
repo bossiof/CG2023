@@ -272,9 +272,9 @@ void GameMain::localInit() {
     
     MBoost.vertices = {
         {{ 0.7f, -0.9f}, {0.0f,0.0f}}, //Top left
-        {{ 0.7f, -0.7f}, {0.0f,1.0f}},//Bottom left 
+        {{ 0.7f, -0.65f}, {0.0f,1.0f}},//Bottom left 
         {{ 0.9f, -0.9f}, {1.0f,0.0f}}, //Top right
-        {{ 0.9f, -0.7f}, {1.0f,1.0f}}}; //Bottom right
+        {{ 0.9f, -0.65f}, {1.0f,1.0f}}}; //Bottom right
 
 	MBoost.indices = {0, 1, 2,    1, 2, 3};
 	MBoost.initMesh(this, 
@@ -298,7 +298,8 @@ void GameMain::localInit() {
     TAsteroids.init(this, 
         "Assets/Textures/asteroid.png");
     TAsteroidsNormMap.init(this, 
-        "Assets/Textures/asteroid_norm.png");
+        "Assets/Textures/asteroid_norm.png",
+        VK_FORMAT_R8G8B8_UNORM);
     TTorus.init(this,
         "Assets/Textures/nebula_texture_torus_hd.jpg");
     
