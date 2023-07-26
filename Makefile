@@ -1,5 +1,7 @@
 # Thomas Daley
 # September 13, 2021
+# For the original version follow:
+# https://gist.github.com/tomdaley92/190c68e8a84038cc91a5459409e007df
 
 # A generic build template for C/C++ programs
 
