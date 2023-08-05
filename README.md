@@ -1,6 +1,6 @@
 # CG2023
 Computer Graphics project for the year 2023 at Politecnico di Milano
-The project consisted in a small space game made with Vulkan to use the concepts learnt during the course
+The group project consisted in a small space game made with Vulkan to use the concepts learnt during the course
 
 ## Makefile
 
